@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     minitest (5.6.1)
+    minitest-color (0.0.1)
     minitest-sprint (1.1.0)
 
 PLATFORMS
@@ -9,4 +10,5 @@ PLATFORMS
 
 DEPENDENCIES
   minitest
+  minitest-color
   minitest-sprint
