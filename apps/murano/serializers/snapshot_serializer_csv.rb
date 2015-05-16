@@ -8,7 +8,7 @@ module Murano
     end
 
     def serialize
-      CSV::Row.new(headers, fields).to_csv
+      CSV::Row.new(headers, fields)
     end
 
     private
@@ -23,9 +23,9 @@ module Murano
 
     def fields
       [
-        snapshot_entry.date,
+        snapshot_entry.date.to_s,
         snapshot_entry.bucket,
-        snapshot_entry.value
+        sprintf("%.2f", snapshot_entry.value)
       ]
     end
 

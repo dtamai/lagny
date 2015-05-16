@@ -9,7 +9,7 @@ module Murano
     end
 
     def serialize
-      CSV::Row.new(headers, fields).to_csv
+      CSV::Row.new(headers, fields)
     end
 
     private
@@ -29,9 +29,9 @@ module Murano
 
     def fields
       [
-        spending.date,
+        spending.date.to_s,
         spending.currency,
-        spending.value,
+        sprintf("%.2f", spending.value),
         spending.pay_method,
         spending.seller,
         spending.category,
