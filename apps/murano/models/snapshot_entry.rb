@@ -1,5 +1,5 @@
 module Murano
-  class Snapshot
+  class SnapshotEntry
 
     attr_accessor :date,
       :bucket,
