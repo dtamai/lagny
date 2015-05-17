@@ -11,7 +11,7 @@ class App < Roda
 
   route do |r|
     r.on "murano" do
-      r.run MuranoApp.freeze.app
+      r.run Murano::App.freeze.app
     end
   end
 

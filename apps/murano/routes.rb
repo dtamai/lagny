@@ -1,21 +1,94 @@
-class MuranoApp < Roda
+module Murano
+class App < Roda
 
   plugin :render,
     engine: "html.erb",
     views: File.expand_path("../views", __FILE__)
+
+  plugin :forme
+
+  def append_snapshot(snapshot)
+    snapshot_writer.append SnapshotSerializerCSV.new(snapshot).serialize
+  end
+
+  def snapshot_writer
+    @snapshot_writer ||= CSVWriter.new(
+      File.open("snapshot.csv", "a+"),
+      SnapshotSerializerCSV.headers
+    )
+  end
+
+  def append_spending(spending)
+    spending_writer.append SpendingSerializerCSV.new(spending).serialize
+  end
+
+  def spending_writer
+    @spending_writer ||= CSVWriter.new(
+      File.open("spending.csv", "a+"),
+      SpendingSerializerCSV.headers
+    )
+  end
+
+  def param_to_date(param)
+    Date.new(
+      param["year"].to_i,
+      param["month"].to_i,
+      param["day"].to_i
+    )
+  end
 
   route do |r|
     r.root do
       render "home"
     end
 
-    r.get "snapshot" do
-      render "snapshot"
+    r.on "snapshot" do
+      branch_root = request.matched_path
+
+      r.is do
+        r.get do
+          render "snapshot_entry"
+        end
+      end
+
+      r.post "create" do
+        entry = SnapshotEntry.new.tap do |se|
+          se.date = param_to_date(r["date"])
+          se.bucket = r["bucket"]
+          se.value = r["value"]
+        end
+        append_snapshot(entry)
+
+        r.redirect branch_root
+      end
     end
 
-    r.get "spending" do
-      render "spending"
+    r.on "spending" do
+      branch_root = r.matched_path
+
+      r.is do
+        r.get do
+          render "spending"
+        end
+      end
+
+      r.post "create" do
+        spending = Spending.new.tap do |sp|
+          sp.date = param_to_date(r["date"])
+          sp.currency = r["currency"]
+          sp.value = r["value"]
+          sp.pay_method = r["pay_method"]
+          sp.seller = r["seller"]
+          sp.category = r["category"]
+          sp.tags = r["tags"]
+          sp.description = r["description"]
+        end
+        append_spending(spending)
+
+        r.redirect branch_root
+      end
     end
   end
 
+end
 end
