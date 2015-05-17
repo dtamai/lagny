@@ -4,17 +4,7 @@ module Murano
 
     attr_reader :spending
 
-    def initialize(spending)
-      @spending = spending
-    end
-
-    def serialize
-      CSV::Row.new(headers, fields)
-    end
-
-    private
-
-    def headers
+    def self.headers
       [
         :date,
         :currency,
@@ -26,6 +16,16 @@ module Murano
         :description
       ]
     end
+
+    def initialize(spending)
+      @spending = spending
+    end
+
+    def serialize
+      CSV::Row.new(self.class.headers, fields)
+    end
+
+    private
 
     def fields
       [

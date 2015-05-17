@@ -3,23 +3,23 @@ module Murano
 
     attr_reader :snapshot_entry
 
-    def initialize(snapshot_entry)
-      @snapshot_entry = snapshot_entry
-    end
-
-    def serialize
-      CSV::Row.new(headers, fields)
-    end
-
-    private
-
-    def headers
+    def self.headers
       [
         :date,
         :bucket,
         :value
       ]
     end
+
+    def initialize(snapshot_entry)
+      @snapshot_entry = snapshot_entry
+    end
+
+    def serialize
+      CSV::Row.new(self.class.headers, fields)
+    end
+
+    private
 
     def fields
       [
