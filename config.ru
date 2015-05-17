@@ -1,6 +1,9 @@
 require "roda"
 
-require "murano"
+$LOAD_PATH.unshift(File.expand_path("../apps", __FILE__))
+$LOAD_PATH.unshift(File.expand_path("../lib", __FILE__))
+
+require "murano/murano"
 
 class App < Roda
 
