@@ -1,1 +1,19 @@
 <h1>Spending</h1>
+
+<% form({ action: "spending/create", method: "post" }, wrapper: :div) do |f| %>
+  <%= f.input(
+    :date,
+    as: :select,
+    name: "date",
+    label: "Date",
+    select_options: { year: 2010..2020 }
+  ) %>
+  <%= f.input( :text, name: "currency", label: "Currency") %>
+  <%= f.input( :number, name: "value", label: "Value") %>
+  <%= f.input( :text, name: "pay_method", label: "Pay method") %>
+  <%= f.input( :text, name: "seller", label: "Seller") %>
+  <%= f.input( :text, name: "category", label: "Category") %>
+  <%= f.input( :text, name: "tags", label: "Tags") %>
+  <%= f.input( :text, name: "description", label: "Description") %>
+  <%= f.button("Submit") %>
+<% end %>

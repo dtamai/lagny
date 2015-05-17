@@ -1,0 +1,22 @@
+<h1>Snapshot entry</h1>
+
+<% form({ action: "snapshot/create", method: "post" }, wrapper: :div) do |f| %>
+  <%= f.input(
+    :date,
+    as: :select,
+    name: "date",
+    label: "Date",
+    select_options: { year: 2010..2020 }
+  ) %>
+  <%= f.input(
+    :text,
+    name: "bucket",
+    label: "Bucket"
+  ) %>
+  <%= f.input(
+    :number,
+    name: "value",
+    label: "Value"
+  ) %>
+  <%= f.button("Submit") %>
+<% end %>
