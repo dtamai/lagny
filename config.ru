@@ -1,20 +1,3 @@
-require "roda"
-
-$LOAD_PATH.unshift(File.expand_path("../apps", __FILE__))
-$LOAD_PATH.unshift(File.expand_path("../lib", __FILE__))
-
-require "murano/murano"
-
-class App < Roda
-
-  plugin :render
-
-  route do |r|
-    r.on "murano" do
-      r.run Murano::App.freeze.app
-    end
-  end
-
-end
+require "./config/application"
 
 run App.freeze.app
