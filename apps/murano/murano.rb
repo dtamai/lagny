@@ -1,5 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+MURANO_BASE = File.expand_path(File.dirname(__FILE__))
+
 require "date"
 require "csv_writer"
 require "roda"
@@ -13,8 +15,6 @@ require "routes"
 
 require "dotenv"
 require "configatron/core"
-
-MURANO_BASE = File.expand_path(File.dirname(__FILE__))
 
 Dotenv.load!(File.join(MURANO_BASE, ".env.#{LAGNY_ENV}"))
 
