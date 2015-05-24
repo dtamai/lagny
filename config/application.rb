@@ -2,6 +2,8 @@ require "rubygems"
 require "bundler"
 Bundler.setup(:default, ENV["RACK_ENV"])
 
+LAGNY_ENV = ENV["RACK_ENV"] || "development"
+
 $LOAD_PATH.unshift(File.expand_path("../../apps", __FILE__))
 $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
 $LOAD_PATH.unshift(File.expand_path("../", __FILE__))
