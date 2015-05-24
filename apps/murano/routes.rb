@@ -9,24 +9,34 @@ class App < Roda
 
   def append_snapshot(snapshot)
     snapshot_writer.append SnapshotSerializerCSV.new(snapshot).serialize
+    snapshot_file.flush
   end
 
   def snapshot_writer
     @snapshot_writer ||= CSVWriter.new(
-      File.open("snapshot.csv", "a+"),
+      snapshot_file,
       SnapshotSerializerCSV.headers
     )
   end
 
+  def snapshot_file
+    @snapshot_file ||= File.open(Config[:ledger][:snapshot], "a+")
+  end
+
   def append_spending(spending)
     spending_writer.append SpendingSerializerCSV.new(spending).serialize
+    spending_file.flush
   end
 
   def spending_writer
     @spending_writer ||= CSVWriter.new(
-      File.open("spending.csv", "a+"),
+      spending_file,
       SpendingSerializerCSV.headers
     )
+  end
+
+  def spending_file
+    @spending_file ||= File.open(Config[:ledger][:spending], "a+")
   end
 
   def param_to_date(param)
