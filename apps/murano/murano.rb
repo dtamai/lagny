@@ -14,7 +14,9 @@ require "routes"
 require "dotenv"
 require "configatron/core"
 
-Dotenv.load!(File.join(File.dirname(__FILE__), ".env.#{LAGNY_ENV}"))
+MURANO_BASE = File.expand_path(File.dirname(__FILE__))
+
+Dotenv.load!(File.join(MURANO_BASE, ".env.#{LAGNY_ENV}"))
 
 Murano::Config = Configatron::RootStore.new
 require "config/ledger"
