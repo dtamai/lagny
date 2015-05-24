@@ -12,6 +12,7 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
     <link href="css/theme.css" rel="stylesheet">
   </head>
 
@@ -38,10 +39,30 @@
         <h1>Murano</h1>
       </div>
 
+      <div class="page-header">
+        <h1>Datepicker</h1>
+        <div class="input-group date">
+          <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+        </div>
+      </div>
+
     </div> <!-- /container -->
 
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/holder.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script>
+$('.input-group.date').datepicker({
+  format: "dd/mm/yyyy",
+  startView: 0,
+  minViewMode: 0,
+  language: "pt-BR",
+  orientation: "top left",
+  autoclose: true,
+  todayHighlight: true
+});
+    </script>
   </body>
 </html>
