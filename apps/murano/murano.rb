@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 MURANO_BASE = File.expand_path(File.dirname(__FILE__))
+MURANO_SECRET = ENV["LAGNY_SECRET"]
 
 require "date"
 require "csv_writer"
@@ -13,7 +14,6 @@ require "serializers/snapshot_serializer_csv"
 
 require "routes"
 
-require "dotenv"
 require "configatron/core"
 
 Dotenv.load!(File.join(MURANO_BASE, ".env.#{LAGNY_ENV}"))

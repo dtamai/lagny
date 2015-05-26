@@ -6,9 +6,13 @@ class App < Roda
 
   plugin :render,
     engine: "html.erb",
-    views: File.expand_path("../views", __FILE__)
+    views: File.expand_path("../views", __FILE__),
+    layout: "layout"
 
   plugin :forme
+  plugin :flash
+
+  use Rack::Session::Cookie, secret: ::MURANO_SECRET
 
   def append_snapshot(snapshot)
     snapshot_writer.append SnapshotSerializerCSV.new(snapshot).serialize
@@ -52,7 +56,7 @@ class App < Roda
 
   route do |r|
     r.root do
-      render "home"
+      view "home"
     end
 
     r.on "snapshot" do
@@ -60,7 +64,7 @@ class App < Roda
 
       r.is do
         r.get do
-          render "snapshot_entry"
+          view "snapshot_entry"
         end
       end
 
@@ -81,7 +85,7 @@ class App < Roda
 
       r.is do
         r.get do
-          render "spending"
+          view "spending"
         end
       end
 
