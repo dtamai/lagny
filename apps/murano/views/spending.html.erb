@@ -1,19 +1,60 @@
 <h1>Spending</h1>
 
-<% form({ action: "spending/create", method: "post" }, wrapper: :div) do |f| %>
-  <%= f.input(
-    :date,
-    as: :select,
-    name: "date",
-    label: "Date",
-    select_options: { year: 2010..2020 }
-  ) %>
-  <%= f.input( :text, name: "currency", label: "Currency") %>
-  <%= f.input( :number, name: "value", label: "Value") %>
-  <%= f.input( :text, name: "pay_method", label: "Pay method") %>
-  <%= f.input( :text, name: "seller", label: "Seller") %>
-  <%= f.input( :text, name: "category", label: "Category") %>
-  <%= f.input( :text, name: "tags", label: "Tags") %>
-  <%= f.input( :text, name: "description", label: "Description") %>
-  <%= f.button("Submit") %>
-<% end %>
+<form class="form-horizontal" method="post" action="spending/create">
+  <div class="form-group">
+    <label for="inputDate" class="col-sm-2 control-label">Date</label>
+    <div class="col-sm-4">
+      <input name="date" type="date" class="form-control" id="inputDate" placeholder="Date">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputCurrency" class="col-sm-2 control-label">Currency</label>
+    <div class="col-sm-4">
+      <select name="currency" class="form-control" id="inputCurrency">
+        <option>BRL</option>
+        <option>USD</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputValue" class="col-sm-2 control-label">Value</label>
+    <div class="col-sm-4">
+      <input name="value" type="number" class="form-control" id="inputValue" placeholder="Value">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPayMethod" class="col-sm-2 control-label">Pay method</label>
+    <div class="col-sm-4">
+      <input name="pay_method" type="text" class="form-control" id="inputPayMethod" placeholder="Pay method">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputSeller" class="col-sm-2 control-label">Seller</label>
+    <div class="col-sm-4">
+      <input name="seller" type="text" class="form-control" id="inputSeller" placeholder="Seller">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputCategory" class="col-sm-2 control-label">Category</label>
+    <div class="col-sm-4">
+      <input name="category" type="text" class="form-control" id="inputCategory" placeholder="Category">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputTags" class="col-sm-2 control-label">Tags</label>
+    <div class="col-sm-4">
+      <input name="tags" type="text" class="form-control" id="inputTags" placeholder="Tags">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+    <div class="col-sm-4">
+      <input name="description" type="text" class="form-control" id="inputDescription" placeholder="Description">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-4">
+      <button type="submit" class="btn btn-default">Create</button>
+    </div>
+  </div>
+</form>

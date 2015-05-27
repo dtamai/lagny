@@ -47,11 +47,7 @@ class App < Roda
   end
 
   def param_to_date(param)
-    Date.new(
-      param["year"].to_i,
-      param["month"].to_i,
-      param["day"].to_i
-    )
+    Date.parse(param)
   end
 
   route do |r|
