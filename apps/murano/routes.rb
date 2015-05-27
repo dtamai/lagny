@@ -2,12 +2,11 @@ module Murano
 class App < Roda
 
   opts[:root] = ::MURANO_BASE
-  plugin :static, ["/js", "/css", "/fonts"]
+  plugin :empty_root
 
   plugin :render,
     engine: "html.erb",
-    views: File.expand_path("../views", __FILE__),
-    layout: "layout"
+    views: File.expand_path("../views", __FILE__)
 
   plugin :forme
   plugin :flash
