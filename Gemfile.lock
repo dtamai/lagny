@@ -11,6 +11,8 @@ GEM
     minitest-color (0.0.1)
     minitest-sprint (1.1.0)
     rack (1.6.1)
+    rack-dev-mark (0.7.3)
+      rack (>= 1.1)
     roda (2.3.0)
       rack
     tilt (2.0.1)
@@ -26,5 +28,6 @@ DEPENDENCIES
   minitest
   minitest-color
   minitest-sprint
+  rack-dev-mark
   roda
   tilt

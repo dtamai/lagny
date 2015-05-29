@@ -19,6 +19,8 @@ class App < Roda
 
   configure :development, :test do
     require "byebug"
+    require "rack/dev-mark"
+    use Rack::DevMark::Middleware
   end
 end
 

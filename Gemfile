@@ -13,4 +13,5 @@ group :development, :test do
   gem "minitest-sprint"
   gem "minitest-color"
   gem "byebug"
+  gem "rack-dev-mark"
 end
