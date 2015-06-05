@@ -8,7 +8,6 @@ class App < Roda
     engine: "html.erb",
     views: File.expand_path("../views", __FILE__)
 
-  plugin :forme
   plugin :flash
 
   use Rack::Session::Cookie, secret: ::MURANO_SECRET

@@ -4,9 +4,10 @@ ruby "2.2.2"
 
 gem "roda"
 gem "tilt"
-gem "forme"
 gem "configatron"
 gem "dotenv"
+
+gem "foreman"
 
 group :development, :test do
   gem "minitest"
