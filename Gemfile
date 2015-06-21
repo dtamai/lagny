@@ -7,8 +7,6 @@ gem "tilt"
 gem "configatron"
 gem "dotenv"
 
-gem "foreman"
-
 group :development, :test do
   gem "minitest"
   gem "minitest-sprint"
