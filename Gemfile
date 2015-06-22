@@ -6,6 +6,7 @@ gem "roda"
 gem "tilt"
 gem "configatron"
 gem "dotenv"
+gem "avro"
 
 group :development, :test do
   gem "minitest"
