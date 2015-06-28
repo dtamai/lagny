@@ -11,23 +11,29 @@ module Kerala
         }
       end
 
-      def fetch_fake_schema
+      def fetch_fake_schema(id)
         File.stub :read, fake_schema do
-          @schema = SchemaRegister.fetch(schema_id)
+          @schema = SchemaRegister.fetch(id)
         end
         @schema
       end
 
       def test_retrieves_schema
-        schema = fetch_fake_schema
+        schema = fetch_fake_schema(schema_id)
 
         assert_instance_of Schema, schema
       end
 
-      def test_assigns_value
-        schema = fetch_fake_schema
+      def test_assigns_id
+        schema = fetch_fake_schema(schema_id)
 
-        refute_nil @schema.value
+        assert_equal schema.id, schema_id
+      end
+
+      def test_assigns_value
+        schema = fetch_fake_schema(schema_id)
+
+        refute_nil schema.value
       end
 
       def schema_id

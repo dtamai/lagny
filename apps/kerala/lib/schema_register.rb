@@ -3,7 +3,7 @@ module Kerala
 
     def self.fetch(schema_id)
       if filename = Config.schemas[schema_id]
-        Schema.new(File.read(filename))
+        Schema.new(schema_id, File.read(filename))
       else
         Schema.unknown
       end

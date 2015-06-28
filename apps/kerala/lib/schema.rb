@@ -1,9 +1,10 @@
 module Kerala
   class Schema
 
-    attr_reader :value
+    attr_reader :id, :value
 
-    def initialize(definition)
+    def initialize(id, definition)
+      @id = id
       @value = Avro::Schema.parse(definition)
     end
 
@@ -17,6 +18,7 @@ module Kerala
     include Singleton
 
     def initialize
+      @id = nil
       @value = nil
     end
   end
