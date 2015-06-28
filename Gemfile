@@ -7,6 +7,8 @@ gem "tilt"
 gem "configatron"
 gem "dotenv"
 gem "avro"
+gem "virtus"
+gem "transproc"
 
 group :development, :test do
   gem "minitest"

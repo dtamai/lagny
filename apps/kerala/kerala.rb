@@ -1,9 +1,12 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require "avro"
+require "virtus"
+require "transproc"
 
 require "lib/schema"
 require "lib/schema_register"
+require "lib/serializer"
 
 require "configatron/core"
 
