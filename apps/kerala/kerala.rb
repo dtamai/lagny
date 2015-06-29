@@ -1,5 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+SCHEMAS_DIR = File.expand_path("schemas", File.dirname(__FILE__))
+
 require "avro"
 require "virtus"
 require "transproc"
