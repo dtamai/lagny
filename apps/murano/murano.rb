@@ -19,3 +19,5 @@ Dotenv.load!(File.join(MURANO_BASE, ".env.#{LAGNY_ENV}"))
 
 Murano::Config = Configatron::RootStore.new
 require "config/ledger"
+
+require "kerala/kerala"

@@ -12,6 +12,10 @@ class App < Roda
 
   use Rack::Session::Cookie, secret: ::MURANO_SECRET
 
+  def producer
+    @producer ||= Kerala::Producer.new("localhost:9092")
+  end
+
   def append_snapshot(snapshot)
     snapshot_writer.append SnapshotSerializerCSV.new(snapshot).serialize
     snapshot_file.flush
@@ -29,6 +33,8 @@ class App < Roda
   end
 
   def append_spending(spending)
+    schema = Kerala::SchemaRegister.fetch(spending.schema_id)
+    producer.send_message("spending", Kerala::Serializer.new(spending, schema).serialize)
     spending_writer.append SpendingSerializerCSV.new(spending).serialize
     spending_file.flush
   end
@@ -84,7 +90,7 @@ class App < Roda
       end
 
       r.post "create" do
-        spending = Spending.new.tap do |sp|
+        spending = Kerala::Spending.new.tap do |sp|
           sp.date = param_to_date(r["date"])
           sp.currency = r["currency"]
           sp.value = r["value"]
