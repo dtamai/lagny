@@ -27,7 +27,8 @@ module Anxi
     end
 
     def decode(schema_id, payload)
-      reader = Avro::IO::DatumReader.new schema_for(schema_id)
+      reader = Avro::IO::DatumReader.new(
+        schema_for(schema_id), schema_for(CSVWriter::SUPPORTED_SCHEMA))
       decoder = Avro::IO::BinaryDecoder.new(StringIO.new(payload))
       reader.read(decoder)
     end
