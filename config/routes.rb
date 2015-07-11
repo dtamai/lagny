@@ -1,4 +1,4 @@
-require "murano/murano"
+require "murano"
 
 class App < Roda
 

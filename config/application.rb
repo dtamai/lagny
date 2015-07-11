@@ -1,13 +1,14 @@
 require "rubygems"
 require "bundler"
-Bundler.setup(:default, ENV["RACK_ENV"])
 
 LAGNY_ENV = ENV["RACK_ENV"] || "development"
-LAGNY_BASE = File.expand_path("../..", __FILE__)
+LAGNY_BASE = File.expand_path("..", File.dirname(__FILE__))
 
-$LOAD_PATH.unshift(File.expand_path("../../apps", __FILE__))
-$LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
-$LOAD_PATH.unshift(File.expand_path("../", __FILE__))
+Bundler.setup(:default, LAGNY_ENV)
+
+$LOAD_PATH.unshift(File.expand_path("../apps", File.dirname(__FILE__)))
+$LOAD_PATH.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
+$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 require "dotenv"
 require "roda"
