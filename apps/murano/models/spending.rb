@@ -10,5 +10,9 @@ module Murano
       :tags,
       :description
 
+    def cents
+      (Float(self.value)*100).round
+    end
+
   end
 end
