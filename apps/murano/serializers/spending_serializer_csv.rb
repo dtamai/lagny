@@ -31,7 +31,7 @@ module Murano
       [
         spending.date.to_s,
         spending.currency,
-        sprintf("%.2f", spending.value),
+        sprintf("%.2f", spending.cents/100.0),
         spending.pay_method,
         spending.seller,
         spending.category,

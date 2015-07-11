@@ -93,7 +93,7 @@ class App < Roda
         spending = Kerala::Spending.new.tap do |sp|
           sp.date = param_to_date(r["date"])
           sp.currency = r["currency"]
-          sp.value = r["value"]
+          sp.cents_from_value(r["value"])
           sp.pay_method = r["pay_method"]
           sp.seller = r["seller"]
           sp.category = r["category"]
