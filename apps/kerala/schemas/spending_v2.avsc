@@ -1,0 +1,18 @@
+{
+  "namespace": "kerala",
+  "type": "record",
+  "name": "Spending",
+  "fields": [
+    { "name": "date",        "type": "string", "default": "2001-01-01" },
+    { "name": "currency",    "type": "string", "default": "unknown" },
+    { "name": "cents",       "type": "int",    "default": 0 },
+    { "name": "pay_method",  "type": "string", "default": "unknown" },
+    { "name": "seller",      "type": "string", "default": "unknown" },
+    { "name": "category",    "type": "string", "default": "unknown" },
+    { "name": "tags",
+      "type": { "type": "array", "items": "string" },
+      "default": []
+    },
+    { "name": "description", "type": "string", "default": "unknown" }
+  ]
+}
