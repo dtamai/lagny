@@ -17,4 +17,4 @@ require "entities/spending"
 require "configatron/core"
 
 Kerala::Config = Configatron::RootStore.new
-require "config/schemas"
+require "config/schemas" unless LAGNY_ENV == "test"
