@@ -1,7 +1,7 @@
 module Anxi
   class CSVWriter
 
-    SUPPORTED_SCHEMA = 1
+    SUPPORTED_SCHEMA = 2
 
     def initialize(output)
       @output = output
@@ -19,7 +19,7 @@ module Anxi
       CSV.generate_line([
         line["date"],
         line["currency"],
-        line["value"],
+        line["cents"],
         line["pay_method"],
         line["seller"],
         line["category"],

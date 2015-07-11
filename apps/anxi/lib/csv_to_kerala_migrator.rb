@@ -1,7 +1,7 @@
 module Anxi
   class CSVToKeralaMigrator
 
-    SUPPORTED_SCHEMA = 1
+    SUPPORTED_SCHEMA = 2
 
     def initialize(file, producer)
       @file = file
@@ -11,6 +11,7 @@ module Anxi
     def migrate
       csv.each do |line|
         spending = Kerala::Spending.new(line)
+        spending.cents_from_value(line[:value])
         @producer.send_message("spending", message_for(spending))
       end
     end
