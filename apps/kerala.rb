@@ -3,10 +3,11 @@ SCHEMAS_DIR = File.expand_path("schemas", KERALA_BASE)
 
 require "avro"
 require "virtus"
-require "transproc"
+require "transproc/all"
 require "poseidon"
 require "configatron/core"
 
+require "kerala/lib/functions"
 require "kerala/lib/schema"
 require "kerala/lib/schema_register"
 require "kerala/lib/serializer"

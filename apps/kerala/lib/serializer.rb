@@ -1,5 +1,6 @@
 module Kerala
   class Serializer
+    include Functions
 
     FORMAT = 1
 
@@ -21,7 +22,7 @@ module Kerala
     attr_reader :object, :io, :encoder, :writer, :schema
 
     def attributes
-      Transproc(:stringify_keys).call(object.attributes)
+      fn(:hash_recursion, fn(:stringify_keys!)).call(object.attributes)
     end
 
   end
