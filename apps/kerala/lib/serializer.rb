@@ -22,7 +22,11 @@ module Kerala
     attr_reader :object, :io, :encoder, :writer, :schema
 
     def attributes
-      fn(:hash_recursion, fn(:stringify_keys!)).call(object.attributes)
+      attr_extractor.call(object)
+    end
+
+    def attr_extractor
+      fn(:deep_attributes) >> fn(:hash_recursion, fn(:stringify_keys!))
     end
 
   end
