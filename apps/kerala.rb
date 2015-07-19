@@ -10,8 +10,11 @@ require "configatron/core"
 require "kerala/lib/functions"
 require "kerala/lib/schema"
 require "kerala/lib/schema_register"
+require "kerala/lib/time_ms"
 require "kerala/lib/serializer"
 require "kerala/lib/producer"
+require "kerala/lib/header"
+require "kerala/lib/event"
 
 require "kerala/entities/spending"
 
