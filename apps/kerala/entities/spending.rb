@@ -1,9 +1,7 @@
 module Kerala
-  class Spending
-    include Virtus.model
-
+  class Spending < Event
     def schema_id
-      2
+      3
     end
 
     attribute :date,        String,        default: "2001-01-01".freeze
