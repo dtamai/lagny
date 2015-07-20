@@ -10,7 +10,7 @@ module Kerala
     def publish(event, topic)
       event.header = make_header
       message = serializer_for(event).serialize
-      producer.send_message message, topic
+      producer.send_message topic, message
     end
 
     private

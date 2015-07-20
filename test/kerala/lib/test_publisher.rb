@@ -25,7 +25,7 @@ module Kerala
     end
 
     def test_forwards_message_to_producer
-      producer = mock_producer :send_message => [nil, [String, "topic"]]
+      producer = mock_producer :send_message => [nil, ["topic", String]]
       publisher = Publisher.new("", producer)
 
       with_fake_schema_register(schema) do
