@@ -1,7 +1,7 @@
 {
   "namespace": "kerala",
   "type": "record",
-  "name": "Spending",
+  "name": "AddSpending",
   "fields": [
     { "name": "header", "type":
       { "name": "headerType", "type": "record", "fields": [

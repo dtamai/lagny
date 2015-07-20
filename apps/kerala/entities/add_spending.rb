@@ -1,5 +1,5 @@
 module Kerala
-  class Spending < Event
+  class AddSpending < Event
     def schema_id
       3
     end

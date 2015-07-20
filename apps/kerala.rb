@@ -17,7 +17,7 @@ require "kerala/lib/producer"
 require "kerala/lib/header"
 require "kerala/lib/event"
 
-require "kerala/entities/spending"
+require "kerala/entities/add_spending"
 
 Kerala::Config = Configatron::RootStore.new
 require "kerala/config/schemas" unless LAGNY_ENV == "test"
