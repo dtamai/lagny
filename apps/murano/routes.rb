@@ -90,7 +90,7 @@ class App < Roda
       end
 
       r.post "create" do
-        spending = Kerala::Spending.new.tap do |sp|
+        spending = Kerala::AddSpending.new.tap do |sp|
           sp.date = param_to_date(r["date"])
           sp.currency = r["currency"]
           sp.cents_from_value(r["value"])

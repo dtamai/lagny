@@ -10,7 +10,7 @@ module Anxi
 
     def migrate
       csv.each do |line|
-        spending = Kerala::Spending.new(line)
+        spending = Kerala::AddSpending.new(line)
         spending.cents_from_value(line[:value])
         @producer.send_message("spending", message_for(spending))
       end

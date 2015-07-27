@@ -2,7 +2,7 @@ require "helper"
 require "kerala"
 
 module Kerala
-  class TestSpending < Minitest::Test
+  class TestAddSpending < Minitest::Test
 
     def test_conversion_value_to_cents
       assert_equal 100, spending_with_value(1).cents
@@ -13,7 +13,7 @@ module Kerala
     end
 
     def spending_with_value(value)
-      sp = Spending.new
+      sp = AddSpending.new
       sp.cents_from_value(value)
       sp
     end
