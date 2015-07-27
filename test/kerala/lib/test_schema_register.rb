@@ -9,7 +9,7 @@ module Kerala
     end
 
     def test_returns_unknown_schema_when_not_registered
-      schema = SchemaRegister.fetch(2)
+      schema = SchemaRegister.new.fetch(2)
 
       assert_instance_of UnknownSchema, schema
     end
@@ -42,7 +42,7 @@ module Kerala
 
       def fetch_fake_schema(id)
         File.stub :read, fake_schema do
-          @schema = SchemaRegister.fetch(id)
+          @schema = SchemaRegister.new.fetch(id)
         end
         @schema
       end
