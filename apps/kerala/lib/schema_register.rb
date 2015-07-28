@@ -1,17 +1,17 @@
 module Kerala
   class SchemaRegister
-
     def fetch(schema_id)
-      if filename = Config.schemas[schema_id]
-        Schema.new(schema_id, File.read(File.join(SCHEMAS_DIR, filename)))
-      else
-        Schema.unknown
-      end
+      cache[schema_id]
     end
 
-    def self.fetch(schema_id)
-      new.fetch(schema_id)
+    def register(schema)
+      cache[schema.id] = schema
     end
 
+    private
+
+    def cache
+      @cache ||= Hash.new { Schema.unknown }
+    end
   end
 end

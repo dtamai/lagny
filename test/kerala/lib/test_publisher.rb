@@ -2,21 +2,15 @@ require "helper"
 
 module Kerala
   class TestPublisher < Minitest::Test
-    class Dummy < Event
-      def schema_id
-        1
-      end
-    end
 
     def test_adds_header_information
+      schema_register = schema_register_with(dummy_schema)
       producer = mock_producer :send_message => [nil, [String, String]]
-      publisher = Publisher.new("dummy", producer)
+      publisher = Publisher.new("dummy", producer, schema_register)
       evt = Dummy.new
 
-      with_fake_schema_register(schema) do
-        Time.stub :now, Time.at(12_345_678) do
-          publisher.publish(evt, "")
-        end
+      Time.stub :now, Time.at(12_345_678) do
+        publisher.publish(evt, "")
       end
       header = evt.header
 
@@ -25,14 +19,19 @@ module Kerala
     end
 
     def test_forwards_message_to_producer
+      schema_register = schema_register_with(dummy_schema)
       producer = mock_producer :send_message => [nil, ["topic", String]]
-      publisher = Publisher.new("", producer)
+      publisher = Publisher.new("", producer, schema_register)
 
-      with_fake_schema_register(schema) do
-        publisher.publish(Dummy.new, "topic")
-      end
+      publisher.publish(Dummy.new, "topic")
 
       producer.verify
+    end
+
+    def schema_register_with(schema)
+      sr = SchemaRegister.new
+      sr.register(schema)
+      sr
     end
 
     def mock_producer(options = {})
@@ -41,13 +40,13 @@ module Kerala
       mock
     end
 
-    def with_fake_schema_register(schema)
-      SchemaRegister.stub :fetch, schema do
-        yield
+    class Dummy < Event
+      def schema_id
+        1
       end
     end
 
-    def schema
+    def dummy_schema
       Schema.new(
         1,
         %q|{
