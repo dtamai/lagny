@@ -1,4 +1,3 @@
-SCHEMAS_DIR = "tmp/schemas"
 
 task :init do
   mkdir_p ["tmp", "tmp/log", "tmp/data", "tmp/run", SCHEMAS_DIR]

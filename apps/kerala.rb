@@ -1,5 +1,4 @@
 KERALA_BASE = File.expand_path("kerala", File.dirname(__FILE__))
-SCHEMAS_DIR = File.expand_path("schemas", KERALA_BASE)
 
 require "avro"
 require "virtus"
