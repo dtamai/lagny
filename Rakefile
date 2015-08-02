@@ -21,13 +21,14 @@ namespace :kerala do
     schema = idl.pathmap("%{tmp,#{SCHEMAS_DIR}}p").ext("avsc")
 
     idl.zip(tmp, schema).each do |idl, tmp, schema|
+      puts "Generating #{schema} from #{idl}"
       system "java", "-jar", ENV["AVRO_TOOLS_JAR"], "idl2schemata", idl, tmpdir
-      cp tmp, schema
+      cp tmp, schema, :verbose => false
     end
   end
 
   desc "Clear generated files"
   task :clear => :environment do
-    rm Dir["#{SCHEMAS_DIR}/*.avsc"]
+    rm Dir["#{SCHEMAS_DIR}/*.avsc"], :verbose => false
   end
 end
