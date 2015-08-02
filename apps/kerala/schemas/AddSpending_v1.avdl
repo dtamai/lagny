@@ -1,11 +1,11 @@
 @namespace("kerala")
 protocol Kerala {
-    import idl "header_v1.avdl";
+    import idl "Header_v1.avdl";
 
     record AddSpending {
         Header header = {};
         string date = "2001-01-01";
-        string currenct = "unknown";
+        string currency = "unknown";
         int cents = 0;
         string pay_method = "unknown";
         string seller = "unknown";
