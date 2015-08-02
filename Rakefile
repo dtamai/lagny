@@ -1,4 +1,34 @@
-task :init do
-  mkdir_p ["tmp", "tmp/log", "tmp/data", "tmp/run"]
+task :environment do
+  $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
+  require "config/application"
 end
 
+task :init => :environment do
+  mkdir_p ["tmp", "tmp/log", "tmp/data", "tmp/run", SCHEMAS_DIR]
+end
+
+namespace :kerala do
+
+  desc "Generate schemas from IDL"
+  task :schemas => [:environment, :clear] do
+    require "tmpdir"
+    tmpdir = Dir.mktmpdir
+
+    idl = FileList.new("tmp/*.avdl")
+    tmp = idl.map do |file|
+      file.pathmap("%{.*,#{tmpdir}}X%s%{.*,*}n.avsc") { |name| name[/[^_]*/] }
+    end
+    schema = idl.pathmap("%{tmp,#{SCHEMAS_DIR}}p").ext("avsc")
+
+    idl.zip(tmp, schema).each do |idl, tmp, schema|
+      puts "Generating #{schema} from #{idl}"
+      system "java", "-jar", ENV["AVRO_TOOLS_JAR"], "idl2schemata", idl, tmpdir
+      cp tmp, schema, :verbose => false
+    end
+  end
+
+  desc "Clear generated files"
+  task :clear => :environment do
+    rm Dir["#{SCHEMAS_DIR}/*.avsc"], :verbose => false
+  end
+end

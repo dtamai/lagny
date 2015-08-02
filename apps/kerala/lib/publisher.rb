@@ -2,9 +2,10 @@ module Kerala
   class Publisher
     attr_reader :name
 
-    def initialize(name, producer)
+    def initialize(name, producer, schema_register)
       @name = name
       @producer = producer
+      @schema_register = schema_register
     end
 
     def publish(event, topic)
@@ -25,7 +26,7 @@ module Kerala
     end
 
     def serializer_for(object)
-      schema = SchemaRegister.fetch(object.schema_id)
+      schema = @schema_register.fetch(object.schema_id)
       Serializer.new(object, schema)
     end
   end

@@ -1,0 +1,16 @@
+@namespace("kerala")
+protocol Kerala {
+    import idl "header_v1.avdl";
+
+    record AddSpending {
+        Header header = {};
+        string date = "2001-01-01";
+        string currenct = "unknown";
+        int cents = 0;
+        string pay_method = "unknown";
+        string seller = "unknown";
+        string category = "unknown";
+        array<string> tags = [];
+        string description = "unknown";
+    }
+}

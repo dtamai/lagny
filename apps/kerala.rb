@@ -1,11 +1,12 @@
 KERALA_BASE = File.expand_path("kerala", File.dirname(__FILE__))
-SCHEMAS_DIR = File.expand_path("schemas", KERALA_BASE)
 
 require "avro"
 require "virtus"
 require "transproc/all"
 require "poseidon"
 require "configatron/core"
+
+require "kerala/config/schemas"
 
 require "kerala/lib/functions"
 require "kerala/lib/schema"
@@ -19,5 +20,15 @@ require "kerala/lib/event"
 
 require "kerala/entities/add_spending"
 
-Kerala::Config = Configatron::RootStore.new
-require "kerala/config/schemas" unless LAGNY_ENV == "test"
+module Kerala
+  Config = Configatron::RootStore.new
+
+  Config.schema_register = SchemaRegister.new
+  Dir["#{SCHEMAS_DIR}/*.avsc"].each do |schema_path|
+    schema_name = Pathname.new(schema_path).basename.to_s
+    id = Config.schemas[schema_name]
+    next unless id
+    schema = Schema.new(id, File.read(schema_path))
+    Config.schema_register.register schema
+  end
+end
