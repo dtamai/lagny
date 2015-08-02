@@ -16,6 +16,13 @@ class App < Roda
     @producer ||= Kerala::Producer.new("localhost:9092")
   end
 
+  def publisher
+    @publisher ||= Kerala::Publisher.new(
+      "murano",
+      producer,
+      Kerala::Config.schema_register)
+  end
+
   def append_snapshot(snapshot)
     snapshot_writer.append SnapshotSerializerCSV.new(snapshot).serialize
     snapshot_file.flush
@@ -33,8 +40,7 @@ class App < Roda
   end
 
   def append_spending(spending)
-    schema = Kerala::SchemaRegister.fetch(spending.schema_id)
-    producer.send_message("spending", Kerala::Serializer.new(spending, schema).serialize)
+    publisher.publish(spending, "spending")
     spending_writer.append SpendingSerializerCSV.new(spending).serialize
     spending_file.flush
   end
