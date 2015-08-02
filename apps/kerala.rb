@@ -6,8 +6,6 @@ require "transproc/all"
 require "poseidon"
 require "configatron/core"
 
-require "kerala/config/schemas"
-
 require "kerala/lib/functions"
 require "kerala/lib/schema"
 require "kerala/lib/schema_register"
@@ -22,6 +20,7 @@ require "kerala/entities/add_spending"
 
 module Kerala
   Config = Configatron::RootStore.new
+  require "kerala/config/schemas"
 
   Config.schema_register = SchemaRegister.new
   Dir["#{SCHEMAS_DIR}/*.avsc"].each do |schema_path|
