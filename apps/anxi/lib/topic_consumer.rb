@@ -23,7 +23,7 @@ module Anxi
     attr_reader :consumer
 
     def schema_for(schema_id)
-      Kerala::SchemaRegister.fetch(schema_id).value
+      Kerala::Config.schema_register.fetch(schema_id).value
     end
 
     def decode(schema_id, payload)

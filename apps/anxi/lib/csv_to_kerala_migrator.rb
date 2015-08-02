@@ -28,7 +28,7 @@ module Anxi
     end
 
     def schema
-      @schema ||= Kerala::SchemaRegister.fetch(SUPPORTED_SCHEMA)
+      @schema ||= Kerala::Config.schema_register.fetch(SUPPORTED_SCHEMA)
     end
 
     def message_for(object)
