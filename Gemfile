@@ -10,6 +10,8 @@ gem "avro"
 gem "virtus"
 gem "transproc"
 gem "poseidon"
+gem "sequel"
+gem "sqlite3"
 
 group :development, :test do
   gem "minitest"
