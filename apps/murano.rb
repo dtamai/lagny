@@ -6,8 +6,6 @@ require "csv_writer"
 require "configatron/core"
 
 require "murano/models/snapshot_entry"
-require "murano/models/spending"
-require "murano/serializers/spending_serializer_csv"
 require "murano/serializers/snapshot_serializer_csv"
 
 require "murano/routes"

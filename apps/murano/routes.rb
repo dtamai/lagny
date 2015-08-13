@@ -41,19 +41,6 @@ class App < Roda
 
   def append_spending(spending)
     publisher.publish(spending, "spending")
-    spending_writer.append SpendingSerializerCSV.new(spending).serialize
-    spending_file.flush
-  end
-
-  def spending_writer
-    @spending_writer ||= CSVWriter.new(
-      spending_file,
-      SpendingSerializerCSV.headers
-    )
-  end
-
-  def spending_file
-    @spending_file ||= File.open(Config[:ledger][:spending], "a+")
   end
 
   def param_to_date(param)
