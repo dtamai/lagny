@@ -1,7 +1,7 @@
 module Anxi
   class CSVToKeralaMigrator
 
-    SUPPORTED_SCHEMA = 2
+    SUPPORTED_SCHEMA = 3
 
     def initialize(file, producer)
       @file = file
