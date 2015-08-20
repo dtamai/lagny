@@ -10,8 +10,6 @@ require "murano/serializers/snapshot_serializer_csv"
 
 require "murano/routes"
 
-Dotenv.load!(File.join(MURANO_BASE, ".env.#{LAGNY_ENV}"))
-
 Murano::Config = Configatron::RootStore.new
 require "murano/config/ledger"
 
