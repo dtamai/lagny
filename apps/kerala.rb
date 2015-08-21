@@ -1,5 +1,3 @@
-KERALA_BASE = File.expand_path("kerala", File.dirname(__FILE__))
-
 require "avro"
 require "virtus"
 require "transproc/all"
