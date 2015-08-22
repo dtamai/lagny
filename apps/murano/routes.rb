@@ -13,7 +13,7 @@ class App < Roda
   use Rack::Session::Cookie, secret: ::MURANO_SECRET
 
   def producer
-    @producer ||= Kerala::Producer.new("localhost:9092")
+    @producer ||= Kerala::Producer.new
   end
 
   def publisher

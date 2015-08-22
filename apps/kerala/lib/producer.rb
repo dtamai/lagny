@@ -1,7 +1,7 @@
 module Kerala
   class Producer
 
-    def initialize(conn_string)
+    def initialize(conn_string = ENV["KERALA_KAFKA_CONNECTION"])
       @producer = Poseidon::Producer.new([conn_string], "kerala")
     end
 
