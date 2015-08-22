@@ -23,22 +23,6 @@ class App < Roda
       Kerala::Config.schema_register)
   end
 
-  def append_snapshot(snapshot)
-    snapshot_writer.append SnapshotSerializerCSV.new(snapshot).serialize
-    snapshot_file.flush
-  end
-
-  def snapshot_writer
-    @snapshot_writer ||= CSVWriter.new(
-      snapshot_file,
-      SnapshotSerializerCSV.headers
-    )
-  end
-
-  def snapshot_file
-    @snapshot_file ||= File.open(Config[:ledger][:snapshot], "a+")
-  end
-
   def append_spending(spending)
     publisher.publish(spending, "spending")
   end
@@ -50,27 +34,6 @@ class App < Roda
   route do |r|
     r.root do
       view "home"
-    end
-
-    r.on "snapshot" do
-      branch_root = request.matched_path
-
-      r.is do
-        r.get do
-          view "snapshot_entry"
-        end
-      end
-
-      r.post "create" do
-        entry = SnapshotEntry.new.tap do |se|
-          se.date = param_to_date(r["date"])
-          se.bucket = r["bucket"]
-          se.value = r["value"]
-        end
-        append_snapshot(entry)
-
-        r.redirect branch_root
-      end
     end
 
     r.on "spending" do
@@ -99,6 +62,5 @@ class App < Roda
       end
     end
   end
-
 end
 end
