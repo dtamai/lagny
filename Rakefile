@@ -32,3 +32,13 @@ namespace :kerala do
     rm Dir["#{SCHEMAS_DIR}/*.avsc"], :verbose => false
   end
 end
+
+namespace :anxi do
+  desc "Dumps spending topic to a sqlite file"
+  task :"sqlite:dump" => [:environment] do
+    require "anxi"
+    writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
+    consumer = Anxi::TopicConsumer.new(ENV["KERALA_KAFKA_CONNECTION"], "spending")
+    Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
+  end
+end
