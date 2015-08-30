@@ -8,7 +8,6 @@ task :init => :environment do
 end
 
 namespace :kerala do
-
   desc "Generate schemas from IDL"
   task :schemas => [:environment, :clear] do
     require "tmpdir"
@@ -40,5 +39,20 @@ namespace :anxi do
     writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
     consumer = Anxi::TopicConsumer.new(ENV["KERALA_KAFKA_CONNECTION"], "spending")
     Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
+  end
+
+  desc "Dumps spending topic to a csv file"
+  task :"csv:dump" => [:environment] do
+    require "anxi"
+    begin
+      file = File.open("tmp/anxi.csv", "w+")
+      consumer = Anxi::TopicConsumer.new(ENV["KERALA_KAFKA_CONNECTION"], "spending")
+      writer = Anxi::CSVWriter.new(file)
+      consumer.consume do |msg|
+        writer.write msg
+      end
+    ensure
+      file.close
+    end
   end
 end
