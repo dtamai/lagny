@@ -27,5 +27,3 @@ class App < Roda
     use Rack::DevMark::Middleware
   end
 end
-
-require "routes"
