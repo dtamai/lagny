@@ -17,9 +17,5 @@ module Kerala
 
       refute_instance_of UnknownSchema, schema_register.fetch(1)
     end
-
-    def fake_schema
-      %q|{ "name": "fake", "type": "string" }|
-    end
   end
 end
