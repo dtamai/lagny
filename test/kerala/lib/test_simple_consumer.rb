@@ -50,7 +50,17 @@ module Kerala
       attribute :field, String, :default => "o.O"
     end
 
-    FakePoseidon = Struct.new(:fetch)
+    FakePoseidon = Class.new do
+      def initialize(messages)
+        @messages = messages
+      end
+
+      def fetch(*args)
+        values, @messages = @messages, []
+        values
+      end
+    end
+
     Message = Struct.new(:object, :schema) do
       def value
         Serializer.new(object, schema).serialize
@@ -63,8 +73,8 @@ module Kerala
       end
     end
 
-    def fake_poseidon(*message)
-      FakePoseidon.new(message)
+    def fake_poseidon(*messages)
+      FakePoseidon.new(messages)
     end
 
     def dummy_schema

@@ -8,15 +8,20 @@ module Kerala
     end
 
     def consume
-      messages = consumer.fetch
-      messages.each do |m|
-        format, schema_id, payload = m.value.unpack("LLA*")
-        schema = schema_for schema_id
-        next unless format == Serializer::FORMAT
-        next if schema == Schema.unknown
+      loop do
+        messages = consumer.fetch(:max_wait_ms => 100)
+        break if messages.none?
 
-        yield decode(payload, schema)
+        messages.each do |m|
+          format, schema_id, payload = m.value.unpack("LLA*")
+          schema = schema_for schema_id
+          next unless format == Serializer::FORMAT
+          next if schema == Schema.unknown
+
+          yield decode(payload, schema)
+        end
       end
+
       nil
     end
 
@@ -29,7 +34,8 @@ module Kerala
     end
 
     def decode(payload, schema)
-      reader = Avro::IO::DatumReader.new(schema.value, (acceptable_schema || schema).value)
+      readers_schema = acceptable_schema || schema
+      reader = Avro::IO::DatumReader.new(schema.value, readers_schema.value)
       decoder = Avro::IO::BinaryDecoder.new(StringIO.new(payload))
       attributes = reader.read(decoder)
       schema.event_class.new attributes
