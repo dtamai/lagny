@@ -50,7 +50,7 @@ module Kerala
       Schema.new(
         1,
         %q|{
-        "name": "dummy",
+        "name": "Dummy",
         "type": "record",
         "fields": [
             { "name": "header", "type":

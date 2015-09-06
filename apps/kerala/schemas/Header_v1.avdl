@@ -1,4 +1,4 @@
-@namespace("kerala")
+@namespace("Kerala")
 protocol Kerala {
     record Header {
         long publishing_time = 0;

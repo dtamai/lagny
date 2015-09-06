@@ -1,4 +1,4 @@
-@namespace("kerala")
+@namespace("Kerala")
 protocol Kerala {
     import idl "Header_v1.avdl";
 

@@ -13,6 +13,7 @@ require "kerala/lib/serializer"
 require "kerala/lib/producer"
 require "kerala/lib/header"
 require "kerala/lib/event"
+require "kerala/lib/simple_consumer"
 
 require "kerala/entities/add_spending"
 
