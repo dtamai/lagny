@@ -3,6 +3,8 @@ MURANO_SECRET = ENV["LAGNY_SECRET"]
 
 require "date"
 
-require "murano/routes"
-
 require "kerala"
+
+require "murano/lib/recent_spendings"
+
+require "murano/routes"

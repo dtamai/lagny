@@ -31,6 +31,10 @@ class App < Roda
     Date.parse(param)
   end
 
+  def recent_spendings
+    @recent_spendings ||= RecentSpendings.new.fetch
+  end
+
   route do |r|
     r.root do
       view "home"
@@ -41,6 +45,7 @@ class App < Roda
 
       r.is do
         r.get do
+          @last_entries = recent_spendings
           view "spending"
         end
       end
