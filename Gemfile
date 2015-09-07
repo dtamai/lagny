@@ -21,4 +21,5 @@ group :development, :test do
   gem "awesome_print"
   gem "byebug"
   gem "rack-dev-mark"
+  gem "stackprof"
 end
