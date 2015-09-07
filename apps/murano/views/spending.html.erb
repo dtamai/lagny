@@ -63,3 +63,30 @@
     </div>
   </div>
 </form>
+
+<h2>Last entries</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Currency</th>
+      <th>Value</th>
+      <th>Pay method</th>
+      <th>Seller</th>
+      <th>Category</th>
+      <th>Description</th>
+    </tr>
+    <% @last_entries.each do |entry| %>
+      <tr>
+        <td><%= entry.date %></td>
+        <td><%= entry.currency %></td>
+        <td><%= entry.cents.to_s.insert(-3, ".") %></td>
+        <td><%= entry.pay_method %></td>
+        <td><%= entry.seller %></td>
+        <td><%= entry.category %></td>
+        <td><%= entry.description %></td>
+      </tr>
+    <% end %>
+  </thead>
+</table>
