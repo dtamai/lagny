@@ -23,7 +23,7 @@ module Kerala
 
   Config.schema_register = SchemaRegister.new
   Dir["#{SCHEMAS_DIR}/*.avsc"].each do |schema_path|
-    schema_name = Pathname.new(schema_path).basename.to_s
+    schema_name = Pathname.new(schema_path).basename(".avsc").to_s
     id = Config.schemas[schema_name]
     next unless id
     schema = Schema.new(id, File.read(schema_path))
