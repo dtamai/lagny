@@ -21,6 +21,8 @@ module Kerala
   Config = Configatron::RootStore.new
   require "kerala/config/schemas"
 
+  Logger = LogStashLogger.new(:type => :stdout)
+
   Config.schema_register = SchemaRegister.new
   Dir["#{SCHEMAS_DIR}/*.avsc"].each do |schema_path|
     schema_name = Pathname.new(schema_path).basename(".avsc").to_s

@@ -15,6 +15,7 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 require "dotenv"
 require "roda"
 require "configatron/core"
+require "logstash-logger"
 
 Dotenv.load!(File.join(LAGNY_BASE, ".env.#{LAGNY_ENV}"))
 
