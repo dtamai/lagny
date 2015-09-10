@@ -27,7 +27,10 @@ module Kerala
   Dir["#{SCHEMAS_DIR}/*.avsc"].each do |schema_path|
     schema_name = Pathname.new(schema_path).basename(".avsc").to_s
     id = Config.schemas[schema_name]
-    next unless id
+    unless id
+      Logger.error "Can't register unknown schema '#{schema_name}'"
+      next
+    end
     schema = Schema.new(id, File.read(schema_path))
     Config.schema_register.register schema
   end

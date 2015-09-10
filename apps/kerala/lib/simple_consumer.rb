@@ -15,8 +15,14 @@ module Kerala
         messages.each do |m|
           format, schema_id, payload = m.value.unpack("LLA*")
           schema = schema_for schema_id
-          next unless format == Serializer::FORMAT
-          next if schema == Schema.unknown
+          unless format == Serializer::FORMAT
+            Logger.warn "Unexpected message format: '#{format} (offset: #{m.offset})'"
+            next
+          end
+          if schema == Schema.unknown
+            Logger.warn "Unknown schema: #{schema_id} (offset: #{m.offset})"
+            next
+          end
 
           yield decode(payload, schema)
         end
