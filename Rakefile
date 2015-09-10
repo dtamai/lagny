@@ -33,17 +33,35 @@ namespace :kerala do
 end
 
 namespace :anxi do
+  task :setup => [:environment] do
+    require "anxi"
+  end
+
   desc "Dumps spending topic to a sqlite file"
-  task :"sqlite:dump" => [:environment] do
+  task :"sqlite:dump" => [:setup, "sqlite:reset"] do
     require "anxi"
     writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
     consumer = Anxi::TopicConsumer.new(ENV["KERALA_KAFKA_CONNECTION"], "spending")
     Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
   end
 
+  desc "Recreates spendings table"
+  task :"sqlite:reset" => [:setup] do
+    Anxi::DB.create_table!(:spendings) do
+      primary_key :id
+      String :date, :fixed => true, :size => 10, :null => false
+      String :currency, :fixed => true, :size => 3, :null => false
+      Integer :cents, :null => false
+      String :pay_method, :null => false
+      String :seller, :null => false
+      String :category, :null => false
+      String :tags
+      String :description, :null => false
+    end
+  end
+
   desc "Dumps spending topic to a csv file"
-  task :"csv:dump" => [:environment] do
-    require "anxi"
+  task :"csv:dump" => [:setup] do
     begin
       file = File.open("tmp/anxi.csv", "w+")
       consumer = Anxi::TopicConsumer.new(ENV["KERALA_KAFKA_CONNECTION"], "spending")
