@@ -12,6 +12,7 @@ gem "transproc"
 gem "poseidon"
 gem "sequel"
 gem "sqlite3"
+gem "logstash-logger"
 
 group :development, :test do
   gem "minitest"
