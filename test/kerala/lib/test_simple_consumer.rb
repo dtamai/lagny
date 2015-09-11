@@ -65,11 +65,19 @@ module Kerala
       def value
         Serializer.new(object, schema).serialize
       end
+
+      def offset
+        1
+      end
     end
 
     WrongFormatMessage = Class.new do
       def value
         [49, 49, "BAD"].pack("LLA*")
+      end
+
+      def offset
+        -1
       end
     end
 
