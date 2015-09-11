@@ -9,8 +9,8 @@ module Murano
     def fetch
       cache = []
       consumer.consume do |event|
-        cache << event
-        cache.delete_at 0 if cache.size > limit
+        cache.unshift event
+        cache.pop if cache.size > limit
       end
       cache
     end
