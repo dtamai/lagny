@@ -13,6 +13,10 @@ module Kerala
       UnknownSchema.instance
     end
 
+    def unknown?
+      false
+    end
+
     private
 
     def event_name
@@ -28,6 +32,10 @@ module Kerala
       @id = nil
       @value = nil
       @event_class = Event
+    end
+
+    def unknown?
+      true
     end
   end
 end

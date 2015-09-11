@@ -19,7 +19,7 @@ module Kerala
             Logger.warn "Unexpected message format: '#{format} (offset: #{m.offset})'"
             next
           end
-          if schema == Schema.unknown
+          if schema.unknown?
             Logger.warn "Unknown schema: #{schema_id} (offset: #{m.offset})"
             next
           end
