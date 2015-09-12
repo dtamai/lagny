@@ -10,7 +10,7 @@ module Kerala
     attribute :pay_method, String,  default: "unknown".freeze
     attribute :seller,     String,  default: "unknown".freeze
 
-    def initialize(params)
+    def initialize(params = {})
       super
       cents_from_value(params["value"])
     end
