@@ -40,30 +40,34 @@ class App < Roda
       view "home"
     end
 
-    r.on "spending" do
+    r.on "spendings" do
       branch_root = r.matched_path
 
       r.is do
         r.get do
           @last_entries = recent_spendings
-          view "spending"
+          view "spendings"
+        end
+
+        r.post do
+          r.params["date"] = param_to_date(r.params["date"])
+          spending = Kerala::AddSpending.new(r.params)
+          append_spending(spending)
+
+          r.redirect branch_root
         end
       end
+    end
 
-      r.post "create" do
-        spending = Kerala::AddSpending.new.tap do |sp|
-          sp.date = param_to_date(r["date"])
-          sp.currency = r["currency"]
-          sp.cents_from_value(r["value"])
-          sp.pay_method = r["pay_method"]
-          sp.seller = r["seller"]
-          sp.category = r["category"]
-          sp.tags = r["tags"]
-          sp.description = r["description"]
+    r.on "chargebacks" do
+      r.is do
+        r.post do
+          r.params["date"] = param_to_date(r.params["date"])
+          chargeback = Kerala::AddChargeback.new(r.params)
+          append_spending(chargeback)
+
+          r.redirect "#{r.script_name}/spendings"
         end
-        append_spending(spending)
-
-        r.redirect branch_root
       end
     end
   end

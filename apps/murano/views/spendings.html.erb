@@ -1,6 +1,6 @@
-<h1>Spending</h1>
+<h1>Spendings</h1>
 
-<form class="form-horizontal" method="post" action="spending/create">
+<form class="form-horizontal" method="post" action="spendings">
   <div class="form-group">
     <label for="inputDate" class="col-sm-2 control-label">Date</label>
     <div class="col-sm-8 col-md-6">
@@ -81,7 +81,7 @@
       <tr>
         <td><%= entry.date %></td>
         <td><%= entry.currency %></td>
-        <td><%= entry.cents.to_s.insert(-3, ".") %></td>
+        <td><%= sprintf("%.2f", entry.value_from_cents) %>
         <td><%= entry.pay_method %></td>
         <td><%= entry.seller %></td>
         <td><%= entry.category %></td>
