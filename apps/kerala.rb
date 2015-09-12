@@ -16,6 +16,7 @@ require "kerala/lib/event"
 require "kerala/lib/simple_consumer"
 
 require "kerala/entities/add_spending"
+require "kerala/entities/add_chargeback"
 
 module Kerala
   Config = Configatron::RootStore.new
