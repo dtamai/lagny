@@ -9,6 +9,7 @@ module Murano
     def fetch
       cache = []
       consumer.consume do |event|
+        next unless event.is_a? Kerala::AddSpending
         cache.unshift event
         cache.pop if cache.size > limit
       end
