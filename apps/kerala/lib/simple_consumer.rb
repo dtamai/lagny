@@ -1,7 +1,7 @@
 module Kerala
   class SimpleConsumer
-    def initialize(conn_string, topic, acceptable_schema = nil, name="")
-      host, port = conn_string.split(":")
+    def initialize(topic, acceptable_schema = nil, name="")
+      host, port = ENV["KERALA_KAFKA_CONNECTION"].split(":")
       @acceptable_schema = acceptable_schema
       @consumer = Poseidon::PartitionConsumer.new(
         name, host, port, topic, 0, :earliest_offset)

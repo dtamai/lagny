@@ -2,8 +2,7 @@ module Murano
   class RecentSpendings
     def initialize(limit = 10)
       @limit = limit
-      @consumer = Kerala::SimpleConsumer.new(
-        ENV["KERALA_KAFKA_CONNECTION"], "spending")
+      @consumer = Kerala::SimpleConsumer.new("spending")
     end
 
     def fetch
