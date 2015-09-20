@@ -12,7 +12,7 @@ module Kerala
 
     def initialize(params = {})
       super
-      cents_from_value(params["value"])
+      cents_from_value(params["value"]) if params["value"]
     end
 
     def cents_from_value(value)
