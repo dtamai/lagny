@@ -1,6 +1,6 @@
-<h1>Spending</h1>
+<h1>Spendings</h1>
 
-<form class="form-horizontal" method="post" action="spending/create">
+<form class="form-horizontal" method="post">
   <div class="form-group">
     <label for="inputDate" class="col-sm-2 control-label">Date</label>
     <div class="col-sm-8 col-md-6">
@@ -58,8 +58,9 @@
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-4">
-      <button type="submit" class="btn btn-default">Create</button>
+    <div class="col-sm-offset-2 col-sm-8 col-md-6">
+      <button type="submit" formaction="spendings" class="btn btn-primary pull-right">Create</button>
+      <button type="submit" formaction="chargebacks" class="btn btn-danger pull-left">Chargeback</button>
     </div>
   </div>
 </form>
@@ -81,7 +82,7 @@
       <tr>
         <td><%= entry.date %></td>
         <td><%= entry.currency %></td>
-        <td><%= entry.cents.to_s.insert(-3, ".") %></td>
+        <td><%= sprintf("%.2f", entry.value_from_cents) %>
         <td><%= entry.pay_method %></td>
         <td><%= entry.seller %></td>
         <td><%= entry.category %></td>

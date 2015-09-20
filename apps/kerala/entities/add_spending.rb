@@ -13,8 +13,17 @@ module Kerala
     attribute :tags,        Array[String], default: []
     attribute :description, String,        default: "unknown".freeze
 
+    def initialize(params = {})
+      super
+      cents_from_value(params["value"]) if params["value"]
+    end
+
     def cents_from_value(value)
       self.cents = (Float(value) * 100).round
+    end
+
+    def value_from_cents
+      cents/100.0
     end
   end
 
