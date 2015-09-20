@@ -8,7 +8,7 @@ module Kerala
       message = Message.new(Dummy.new(:field => "..."), dummy_schema)
 
       Poseidon::PartitionConsumer.stub(:new, fake_poseidon(message)) do
-        consumer = SimpleConsumer.new("localhost:9092", "topic")
+        consumer = SimpleConsumer.new("topic")
         consumer.consume do |event|
           @event = event
         end
@@ -23,7 +23,7 @@ module Kerala
       message = WrongFormatMessage.new
 
       Poseidon::PartitionConsumer.stub(:new, fake_poseidon(message)) do
-        consumer = SimpleConsumer.new("localhost:9092", "topic")
+        consumer = SimpleConsumer.new("topic")
         consumer.consume do |event|
           flunk "Consumer can't yield an event from unkown format"
         end
@@ -36,7 +36,7 @@ module Kerala
       message = Message.new(Dummy.new, unknown_schema)
 
       Poseidon::PartitionConsumer.stub(:new, fake_poseidon(message)) do
-        consumer = SimpleConsumer.new("localhost:9092", "topic")
+        consumer = SimpleConsumer.new("topic")
         consumer.consume do |event|
           flunk "Consumer can't yield an event from unkown schema"
         end
@@ -65,11 +65,19 @@ module Kerala
       def value
         Serializer.new(object, schema).serialize
       end
+
+      def offset
+        1
+      end
     end
 
     WrongFormatMessage = Class.new do
       def value
         [49, 49, "BAD"].pack("LLA*")
+      end
+
+      def offset
+        -1
       end
     end
 
