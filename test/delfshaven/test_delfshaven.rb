@@ -4,7 +4,6 @@ require "delfshaven"
 class TestDelfshaven < Minitest::Test
   def setup
     @conn ||= Sequel.connect("sqlite:/")
-    setup_db
   end
 
   attr_reader :conn
@@ -45,19 +44,5 @@ class TestDelfshaven < Minitest::Test
 
   def table
     conn[:spendings]
-  end
-
-  def setup_db
-    conn.create_table!(:spendings) do
-      primary_key :id
-      String :date, :fixed => true, :size => 10, :null => false
-      String :currency, :fixed => true, :size => 3, :null => false
-      Integer :cents, :null => false
-      String :pay_method, :null => false
-      String :seller, :null => false
-      String :category, :null => false
-      String :tags
-      String :description, :null => false
-    end
   end
 end

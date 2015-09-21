@@ -1,8 +1,10 @@
 require "sequel"
+require "kerala"
 
 class Delfshaven
-  def initialize(output = Sequel.connect(ENV["DELFSHAVEN_DATA_FILE"]))
-    @table = output[:spendings]
+  def initialize(conn = Sequel.connect(ENV["DELFSHAVEN_DATA_FILE"]))
+    setup_db conn
+    @table = conn[:spendings]
   end
 
   def handle_spending(spending)
@@ -16,4 +18,19 @@ class Delfshaven
   private
 
   attr_reader :table
+
+  def setup_db(conn)
+    conn.create_table!(:spendings) do
+      primary_key :id
+      String  :date,      :fixed => true, :size => 10, :null => false
+      String  :currency,  :fixed => true, :size => 3,  :null => false
+      Integer :cents,                                  :null => false
+      String  :pay_method,                             :null => false
+      String  :seller,                                 :null => false
+      String  :category,                               :null => false
+      String  :tags
+      String  :description,                            :null => false
+    end
+  end
+
 end
