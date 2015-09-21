@@ -33,4 +33,17 @@ class Delfshaven
     end
   end
 
+  class Main
+    def self.run
+      dh = Delfshaven.new
+
+      consumer = Kerala::SimpleConsumer.new("spending")
+      consumer.consume do |event|
+        case event
+        when Kerala::AddSpending then dh.handle_spending event
+        when Kerala::AddChargeback then dh.handle_chargeback event
+        end
+      end
+    end
+  end
 end
