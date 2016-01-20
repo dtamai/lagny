@@ -24,7 +24,8 @@ module Kerala
             next
           end
 
-          yield decode(payload, schema)
+          decoded = decode(payload, schema)
+          yield decoded if decoded
         end
       end
 
@@ -45,6 +46,8 @@ module Kerala
       decoder = Avro::IO::BinaryDecoder.new(StringIO.new(payload))
       attributes = reader.read(decoder)
       schema.event_class.new attributes
+    rescue
+      nil
     end
   end
 end
