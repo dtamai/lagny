@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+supervisord && \
+  supervisorctl start lagny:zookeeper lagny:kafka lagny:webserver
