@@ -91,3 +91,34 @@
     <% end %>
   </thead>
 </table>
+
+<% content_for :javascripts do %>
+  <script src="/js/holder.min.js"></script>
+  <script src="/js/bootstrap-datepicker.min.js"></script>
+  <script src="/js/bootstrap-datepicker.pt-BR.min.js"></script>
+  <script src="/js/jquery.form-validator.min.js"></script>
+  <script>
+   $(function() {
+       $('.input-group.date').datepicker({
+           format: "dd/mm/yyyy",
+           startView: 0,
+           minViewMode: 0,
+           language: "pt-BR",
+           orientation: "top left",
+           autoclose: true,
+           todayHighlight: true
+       });
+       $('button[type=submit]').click(function() {
+           $('button[type=submit]').blur();
+           $('html').animate({
+               scrollTop: 0
+           }, 100);
+       });
+       $.validate({
+           modules: 'toggleDisabled',
+           showErrorDialogs: true,
+           decimalSeparator: ','
+       });
+   })
+  </script>
+<% end %>
