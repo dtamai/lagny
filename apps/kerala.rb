@@ -22,7 +22,14 @@ module Kerala
   Config = Configatron::RootStore.new
   require "kerala/config/schemas"
 
-  Logger = LogStashLogger.new(:type => :stdout)
+  begin
+    logger_type = case LAGNY_ENV
+                  when "test" then { :type => :file, :path => "/dev/null" }
+                  else { :type => :stdout }
+                  end
+
+    Logger = LogStashLogger.new logger_type
+  end
 
   Config.schema_register = SchemaRegister.new
   Dir["#{SCHEMAS_DIR}/*.avsc"].each do |schema_path|
