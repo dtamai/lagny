@@ -48,7 +48,7 @@ namespace :anxi do
 
   desc "Recreates spendings table"
   task :"sqlite:reset" => [:setup] do
-    Anxi::DB.create_table!(:spendings) do
+    Anxi::DB.create_table?(:spendings) do
       primary_key :id
       String :date, :fixed => true, :size => 10, :null => false
       String :currency, :fixed => true, :size => 3, :null => false
@@ -60,7 +60,7 @@ namespace :anxi do
       String :description, :null => false
     end
 
-    Anxi::DB.create_table!(:__spendings_metadata) do
+    Anxi::DB.create_table?(:__spendings_metadata) do
       String :key, :primary_key => true
       String :value
     end
