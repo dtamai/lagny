@@ -1,10 +1,10 @@
 module Anxi
   class TopicConsumer
 
-    def initialize(conn_string, topic)
+    def initialize(conn_string, topic, offset = :earliest_offset)
       host, port = conn_string.split(":")
       @consumer = Poseidon::PartitionConsumer.new(
-        "anxi", host, port, topic, 0, :earliest_offset)
+        "anxi", host, port, topic, 0, offset)
     end
 
     def consume
