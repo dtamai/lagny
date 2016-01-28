@@ -8,7 +8,7 @@ module Anxi
     end
 
     def consume
-      messages = consumer.fetch
+      messages = consumer.fetch(:max_wait_ms => 100)
       messages.each do |m|
         format, schema_id, payload = m.value.unpack("LLA*")
         next unless format == Kerala::Serializer::FORMAT
