@@ -20,6 +20,10 @@ module Anxi
       nil
     end
 
+    def offset
+      consumer.offset
+    end
+
     private
 
     attr_reader :consumer
