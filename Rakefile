@@ -52,7 +52,9 @@ namespace :anxi do
     end
   end
 
-  desc "(Re-)creates spendings table"
+  desc "Recreates spendings tables"
+  task :"sqlite:reset" => [:"sqlite:drop", :"sqlite:create"]
+
   task :"sqlite:create" => [:setup] do
     Anxi::DB.create_table?(:spendings) do
       primary_key :id
@@ -70,6 +72,11 @@ namespace :anxi do
       String :key, :primary_key => true
       String :value
     end
+  end
+
+  task :"sqlite:drop" => [:setup] do
+    Anxi::DB.drop_table?(:spendings)
+    Anxi::DB.drop_table?(:__spendings_metadata)
   end
 
   desc "Dumps spending topic to a csv file"
