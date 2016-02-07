@@ -16,11 +16,11 @@ module Kerala
           format, schema_id, payload = m.value.unpack("LLA*")
           schema = schema_for schema_id
           unless format == Serializer::FORMAT
-            Logger.warn "Unexpected message format: '#{format} (offset: #{m.offset})'"
+            Kerala.logger.warn "Unexpected message format: '#{format} (offset: #{m.offset})'"
             next
           end
           if schema.unknown?
-            Logger.warn "Unknown schema: #{schema_id} (offset: #{m.offset})"
+            Kerala.logger.warn "Unknown schema: #{schema_id} (offset: #{m.offset})"
             next
           end
 

@@ -26,7 +26,7 @@ module Anxi
         pay_method: event.pay_method,
         seller:     event.seller).order(:date).limit(1)
 
-      Kerala::Logger.warn "Unmatched chargeback: #{event.attributes}" if candidates.empty?
+      Kerala.logger.warn "Unmatched chargeback: #{event.attributes}" if candidates.empty?
 
       candidates.delete
     end
