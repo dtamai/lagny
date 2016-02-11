@@ -13,13 +13,13 @@ namespace :kerala do
     require "tmpdir"
     tmpdir = Dir.mktmpdir
 
-    idl = FileList.new("apps/kerala/schemas/*.avdl")
-    tmp = idl.map do |file|
+    idls = FileList.new("apps/kerala/schemas/*.avdl")
+    tmps = idl.map do |file|
       file.pathmap("%{.*,#{tmpdir}}X%s%{.*,*}n.avsc") { |name| name[/[^_]*/] }
     end
-    schema = idl.pathmap("%{.*,#{SCHEMAS_DIR}}X%s%n.avsc")
+    schemas = idl.pathmap("%{.*,#{SCHEMAS_DIR}}X%s%n.avsc")
 
-    idl.zip(tmp, schema).each do |idl, tmp, schema|
+    idls.zip(tmps, schemas).each do |idl, tmp, schema|
       puts "Generating #{schema} from #{idl}"
       system "java", "-jar", ENV["AVRO_TOOLS_JAR"], "idl2schemata", idl, tmpdir
       cp tmp, schema, :verbose => false
@@ -41,7 +41,8 @@ namespace :anxi do
   task :"sqlite:dump" => [:setup, :"sqlite:reset"] do
     require "anxi"
     writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
-    consumer = Anxi::TopicConsumer.new(ENV["KERALA_KAFKA_CONNECTION"], "spending")
+    consumer = Anxi::TopicConsumer.new(
+      ENV["KERALA_KAFKA_CONNECTION"], "spending")
     Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
     Anxi::DB[:__spendings_metadata].insert(["updated_at", Time.now])
   end
@@ -70,7 +71,8 @@ namespace :anxi do
   task :"csv:dump" => [:setup] do
     begin
       file = File.open("tmp/anxi.csv", "w+")
-      consumer = Anxi::TopicConsumer.new(ENV["KERALA_KAFKA_CONNECTION"], "spending")
+      consumer = Anxi::TopicConsumer.new(
+        ENV["KERALA_KAFKA_CONNECTION"], "spending")
       writer = Anxi::CSVWriter.new(file)
       consumer.consume do |msg|
         writer.write msg

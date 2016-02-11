@@ -2,7 +2,6 @@ require "helper"
 
 module Kerala
   class TestPublisher < Minitest::Test
-
     def test_adds_header_information
       schema_register = schema_register_with(dummy_schema)
       producer = mock_producer :send_message => [nil, [String, String]]
@@ -46,10 +45,11 @@ module Kerala
       end
     end
 
+    # rubocop:disable Metrics/MethodLength
     def dummy_schema
       Schema.new(
         1,
-        %q|{
+        '{
         "name": "Dummy",
         "type": "record",
         "fields": [
@@ -59,7 +59,7 @@ module Kerala
                 { "name": "publisher", "type": "string" }
               ]}
             }
-        ]}|)
+        ]}')
     end
   end
 end

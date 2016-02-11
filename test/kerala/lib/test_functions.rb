@@ -9,7 +9,7 @@ module Kerala
 
     class M2
       include Virtus.model
-      attribute :m1, M1, :default => lambda { |m1, attrs| M1.new }
+      attribute :m1, M1, :default => -> (_, _) { M1.new }
       attribute :attr_m2, Integer, :default => 2
     end
 

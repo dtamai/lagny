@@ -1,6 +1,5 @@
 module Kerala
   class Schema
-
     attr_reader :id, :value, :event_class
 
     def initialize(id, definition)
@@ -22,7 +21,6 @@ module Kerala
     def event_name
       "#{value.namespace}::#{value.name}"
     end
-
   end
 
   class UnknownSchema < Schema

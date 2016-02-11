@@ -3,10 +3,9 @@ require "kerala"
 
 module Kerala
   class TestSerializer < Minitest::Test
-
     class ::Dummy
       include Virtus.model
-      attribute :field, String, default: "dummy"
+      attribute :field, String, :default => "dummy"
     end
 
     def test_message_format_in_first_32_bits
@@ -28,12 +27,12 @@ module Kerala
     end
 
     def test_payload_in_the_remaining
-      serializer = Serializer.new(Dummy.new(field: "foo"), schema)
+      serializer = Serializer.new(Dummy.new(:field => "foo"), schema)
       message = serializer.serialize
 
       _, _, payload = message.unpack("LLA*")
 
-      assert_match /foo/, payload
+      assert_match(/foo/, payload)
     end
 
     def schema

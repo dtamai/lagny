@@ -1,6 +1,7 @@
 require "helper"
 require "delfshaven"
 
+# rubocop:disable Metrics/MethodLength, Metrics/AbcSize
 class TestDelfshaven < Minitest::Test
   def setup
     @conn ||= Sequel.connect("sqlite:/")
@@ -28,17 +29,17 @@ class TestDelfshaven < Minitest::Test
     dh.handle_chargeback chargeback
 
     assert_equal 1, table.where(:seller => "Test1").count,
-                 "Spending for seller Test1 must be kept"
+      "Spending for seller Test1 must be kept"
     assert_equal 0, table.where(:seller => "Test2").count,
-                 "Spending for seller Test2 must be destroyed"
+      "Spending for seller Test2 must be destroyed"
   end
 
   def chargeback_for(spending)
     Kerala::AddChargeback.new(
-          :date => spending.date,
+      :date => spending.date,
       :currency => spending.currency,
-         :cents => spending.cents,
-        :seller => spending.seller
+      :cents => spending.cents,
+      :seller => spending.seller
     )
   end
 

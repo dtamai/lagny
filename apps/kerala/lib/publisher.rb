@@ -21,7 +21,7 @@ module Kerala
     def make_header
       {
         :publishing_time => Time.now,
-        :publisher => name
+        :publisher => name,
       }
     end
 

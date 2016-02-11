@@ -3,7 +3,6 @@ require "kerala"
 
 module Kerala
   class TestAddSpending < Minitest::Test
-
     def test_conversion_value_to_cents
       assert_equal 100, spending_with_value(1).cents
       assert_equal 342, spending_with_value(3.42).cents

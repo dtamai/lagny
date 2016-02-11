@@ -1,6 +1,5 @@
 module Anxi
   class KeralaToSQLMigrator
-
     SUPPORTED_SCHEMA = 2
 
     def initialize(writer, consumer)
@@ -20,13 +19,14 @@ module Anxi
 
     def process_chargeback(event)
       candidates = Anxi::DB[:spendings].where(
-        date:       event.date,
-        currency:   event.currency,
-        cents:      event.cents,
-        pay_method: event.pay_method,
-        seller:     event.seller).order(:date).limit(1)
+        :date       => event.date,
+        :currency   => event.currency,
+        :cents      => event.cents,
+        :pay_method => event.pay_method,
+        :seller     => event.seller).order(:date).limit(1)
 
-      Kerala.logger.warn "Unmatched chargeback: #{event.attributes}" if candidates.empty?
+      Kerala.logger.warn(
+        "Unmatched chargeback: #{event.attributes}") if candidates.empty?
 
       candidates.delete
     end
