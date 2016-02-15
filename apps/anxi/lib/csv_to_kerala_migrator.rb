@@ -1,6 +1,5 @@
 module Anxi
   class CSVToKeralaMigrator
-
     SUPPORTED_SCHEMA = 3
 
     def initialize(file, producer)
@@ -22,7 +21,7 @@ module Anxi
       options = {
         :headers => true,
         :header_converters => :symbol,
-        :return_headers => true
+        :return_headers => true,
       }
       CSV.new(@file, options).tap(&:shift)
     end
@@ -34,6 +33,5 @@ module Anxi
     def message_for(object)
       Kerala::Serializer.new(object, schema).serialize
     end
-
   end
 end

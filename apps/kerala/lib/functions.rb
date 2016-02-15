@@ -15,7 +15,7 @@ module Kerala
 
       result = extractor[value]
       if result.is_a? ::Hash
-        result.keys.each do |key| 
+        result.keys.each do |key|
           result[key] = extractor[result.delete(key)]
         end
       end
@@ -23,12 +23,10 @@ module Kerala
       result
     end
 
-    private
-
     def self._extractor(attr)
-      Functions[:guard, -> v { v.respond_to?(attr) }, -> v { v.send(attr) }]
+      Functions[:guard, -> (v) { v.respond_to?(attr) }, -> (v) { v.send(attr) }]
     end
 
+    private_class_method :_extractor
   end
 end
-

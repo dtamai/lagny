@@ -28,6 +28,5 @@ module Kerala
     def attr_extractor
       fn(:deep_attributes) >> fn(:hash_recursion, fn(:stringify_keys!))
     end
-
   end
 end

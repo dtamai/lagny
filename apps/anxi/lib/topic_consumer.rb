@@ -1,6 +1,5 @@
 module Anxi
   class TopicConsumer
-
     def initialize(conn_string, topic)
       host, port = conn_string.split(":")
       @consumer = Poseidon::PartitionConsumer.new(
@@ -36,6 +35,5 @@ module Anxi
     rescue
       nil
     end
-
   end
 end
