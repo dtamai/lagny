@@ -1,0 +1,40 @@
+Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 80
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: space
+
+Style/PercentQLiterals:
+  EnforcedStyle: upper_case_q
+
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - "tmp/**/*"
+    - "**/*.yml"
+    - "**/*.erb"
+    - "Gemfile.lock"
+    - "README.md"

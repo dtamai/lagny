@@ -1,6 +1,5 @@
 module Anxi
   class CSVWriter
-
     SUPPORTED_SCHEMA = 2
 
     def initialize(output)
@@ -16,17 +15,14 @@ module Anxi
     attr_reader :output
 
     def format(line)
-      CSV.generate_line([
-        line["date"],
-        line["currency"],
-        line["cents"],
-        line["pay_method"],
-        line["seller"],
-        line["category"],
-        line["tags"],
-        line["description"],
-      ])
+      CSV.generate_line([line["date"],
+                         line["currency"],
+                         line["cents"],
+                         line["pay_method"],
+                         line["seller"],
+                         line["category"],
+                         line["tags"],
+                         line["description"]])
     end
-
   end
 end

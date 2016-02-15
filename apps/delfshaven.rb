@@ -19,6 +19,7 @@ class Delfshaven
 
   attr_reader :table
 
+  # rubocop:disable Metrics/MethodLength
   def setup_db(conn)
     conn.create_table!(:spendings) do
       primary_key :id
@@ -28,10 +29,11 @@ class Delfshaven
       String  :pay_method,                             :null => false
       String  :seller,                                 :null => false
       String  :category,                               :null => false
-      String  :tags
       String  :description,                            :null => false
+      String  :tags
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   class Main
     def self.run
