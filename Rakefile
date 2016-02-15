@@ -38,18 +38,25 @@ namespace :anxi do
   end
 
   desc "Dumps spending topic to a sqlite file"
-  task :"sqlite:dump" => [:setup, :"sqlite:reset"] do
-    require "anxi"
+  task :"sqlite:dump" => [:setup, :"sqlite:create"] do
+    metadata = Anxi::Metadata::Sql.new(Anxi::DB)
+
     writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
+    offset = Integer(metadata.get(:latest_offset) || 0)
     consumer = Anxi::TopicConsumer.new(
-      ENV["KERALA_KAFKA_CONNECTION"], "spending")
-    Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
-    Anxi::DB[:__spendings_metadata].insert(["updated_at", Time.now])
+      ENV["KERALA_KAFKA_CONNECTION"], "spending", offset)
+
+    Anxi::DB.transaction do
+      Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
+      Anxi::KeralaToSQLFinalizer.new(metadata, consumer).finalize
+    end
   end
 
-  desc "Recreates spendings table"
-  task :"sqlite:reset" => [:setup] do
-    Anxi::DB.create_table!(:spendings) do
+  desc "Recreates spendings tables"
+  task :"sqlite:reset" => [:"sqlite:drop", :"sqlite:create"]
+
+  task :"sqlite:create" => [:setup] do
+    Anxi::DB.create_table?(:spendings) do
       primary_key :id
       String :date, :fixed => true, :size => 10, :null => false
       String :currency, :fixed => true, :size => 3, :null => false
@@ -61,10 +68,15 @@ namespace :anxi do
       String :description, :null => false
     end
 
-    Anxi::DB.create_table!(:__spendings_metadata) do
+    Anxi::DB.create_table?(:__spendings_metadata) do
       String :key, :primary_key => true
       String :value
     end
+  end
+
+  task :"sqlite:drop" => [:setup] do
+    Anxi::DB.drop_table?(:spendings)
+    Anxi::DB.drop_table?(:__spendings_metadata)
   end
 
   desc "Dumps spending topic to a csv file"

@@ -1,13 +1,13 @@
 module Anxi
   class TopicConsumer
-    def initialize(conn_string, topic)
+    def initialize(conn_string, topic, offset = :earliest_offset)
       host, port = conn_string.split(":")
       @consumer = Poseidon::PartitionConsumer.new(
-        "anxi", host, port, topic, 0, :earliest_offset)
+        "anxi", host, port, topic, 0, offset)
     end
 
     def consume
-      messages = consumer.fetch
+      messages = consumer.fetch(:max_wait_ms => 100)
       messages.each do |m|
         format, schema_id, payload = m.value.unpack("LLA*")
         next unless format == Kerala::Serializer::FORMAT
@@ -17,6 +17,10 @@ module Anxi
         yield msg_schema.event_class.new(decoded) if decoded
       end
       nil
+    end
+
+    def offset
+      consumer.offset
     end
 
     private
