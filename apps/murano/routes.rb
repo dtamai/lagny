@@ -8,6 +8,7 @@ module Murano
       :views => File.expand_path("../views", __FILE__)
 
     plugin :flash
+    plugin :content_for
 
     use Rack::Session::Cookie, :secret => ::MURANO_SECRET
 
