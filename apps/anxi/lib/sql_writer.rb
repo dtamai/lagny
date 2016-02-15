@@ -1,6 +1,5 @@
 module Anxi
   class SQLWriter
-
     SUPPORTED_SCHEMA = 2
 
     def initialize(output)

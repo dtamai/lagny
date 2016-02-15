@@ -45,21 +45,7 @@
 
     <script src="/js/jquery-2.1.4.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/holder.min.js"></script>
-    <script src="/js/bootstrap-datepicker.min.js"></script>
-    <script src="/js/bootstrap-datepicker.pt-BR.min.js"></script>
-    <script src="/js/jquery.form-validator.min.js"></script>
-    <script>
-     $('.input-group.date').datepicker({
-         format: "dd/mm/yyyy",
-         startView: 0,
-         minViewMode: 0,
-         language: "pt-BR",
-         orientation: "top left",
-         autoclose: true,
-         todayHighlight: true
-     });
-     $.validate();
-    </script>
+
+    <%= content_for :javascripts %>
   </body>
 </html>

@@ -2,7 +2,7 @@ module Kerala
   class Event
     include Virtus.model
 
-    attribute :header, Header, :default => lambda { |_, _| Header.new }
+    attribute :header, Header, :default => -> (_, _) { Header.new }
 
     def fields
       attributes.clone.tap do |attrs|

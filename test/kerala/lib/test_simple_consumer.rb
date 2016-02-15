@@ -24,7 +24,7 @@ module Kerala
 
       Poseidon::PartitionConsumer.stub(:new, fake_poseidon(message)) do
         consumer = SimpleConsumer.new("topic")
-        consumer.consume do |event|
+        consumer.consume do |_event|
           flunk "Consumer can't yield an event from unkown format"
         end
       end
@@ -37,7 +37,7 @@ module Kerala
 
       Poseidon::PartitionConsumer.stub(:new, fake_poseidon(message)) do
         consumer = SimpleConsumer.new("topic")
-        consumer.consume do |event|
+        consumer.consume do |_event|
           flunk "Consumer can't yield an event from unkown schema"
         end
       end
@@ -55,7 +55,7 @@ module Kerala
         @messages = messages
       end
 
-      def fetch(*args)
+      def fetch(*_args)
         values, @messages = @messages, []
         values
       end

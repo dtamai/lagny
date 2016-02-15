@@ -4,7 +4,7 @@ require "bundler"
 LAGNY_ENV = ENV["RACK_ENV"] || "development"
 LAGNY_BASE = File.expand_path("..", File.dirname(__FILE__))
 
-SCHEMAS_DIR = "tmp/schemas"
+SCHEMAS_DIR = "tmp/schemas".freeze
 
 Bundler.setup(:default, LAGNY_ENV)
 
