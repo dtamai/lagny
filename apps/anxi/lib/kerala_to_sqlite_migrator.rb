@@ -12,6 +12,7 @@ module Anxi
         case event
         when Kerala::AddSpending then @writer.write event
         when Kerala::AddChargeback then process_chargeback event
+        when Kerala::AddOrUpdateCategory then process_category event
         else next
         end
       end
@@ -33,6 +34,17 @@ module Anxi
 
     def process_spending(event)
       @writer.write event
+    end
+
+    def process_category(event)
+      Anxi::DB.transaction do
+        Anxi::DB[:categories]
+          .where(:identification => event.identification).tap do |dataset|
+          dataset.insert(event.fields) if dataset.update(event.fields) == 0
+        end
+      end
+
+      nil
     end
   end
 end
