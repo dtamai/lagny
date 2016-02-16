@@ -70,6 +70,16 @@ module Murano
           end
         end
       end
+
+      r.on "categories" do
+        r.is do
+          r.get do
+            require "anxi"
+            @categories = ::Anxi::DB[:categories].to_a
+            view "categories"
+          end
+        end
+      end
     end
   end
 end
