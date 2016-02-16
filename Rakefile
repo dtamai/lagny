@@ -72,11 +72,19 @@ namespace :anxi do
       String :key, :primary_key => true
       String :value
     end
+
+    Anxi::DB.create_table?(:categories) do
+      primary_key :id
+      String :identification, :fixed => true, :size => 50,
+                              :null => false, :unique => true
+      String :display_name, :fixed => true, :size => 50, :null => false
+    end
   end
 
   task :"sqlite:drop" => [:setup] do
     Anxi::DB.drop_table?(:spendings)
     Anxi::DB.drop_table?(:__spendings_metadata)
+    Anxi::DB.drop_table?(:categories)
   end
 
   desc "Dumps spending topic to a csv file"
