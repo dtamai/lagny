@@ -14,10 +14,10 @@ namespace :kerala do
     tmpdir = Dir.mktmpdir
 
     idls = FileList.new("apps/kerala/schemas/*.avdl")
-    tmps = idl.map do |file|
+    tmps = idls.map do |file|
       file.pathmap("%{.*,#{tmpdir}}X%s%{.*,*}n.avsc") { |name| name[/[^_]*/] }
     end
-    schemas = idl.pathmap("%{.*,#{SCHEMAS_DIR}}X%s%n.avsc")
+    schemas = idls.pathmap("%{.*,#{SCHEMAS_DIR}}X%s%n.avsc")
 
     idls.zip(tmps, schemas).each do |idl, tmp, schema|
       puts "Generating #{schema} from #{idl}"
