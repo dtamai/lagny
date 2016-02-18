@@ -78,6 +78,13 @@ module Murano
             @categories = ::Anxi::DB[:categories].to_a
             view "categories"
           end
+
+          r.post do
+            category = Kerala::AddOrUpdateCategory.new(r.params)
+            append_spending(category)
+
+            r.redirect"#{r.script_name}/categories"
+          end
         end
       end
     end
