@@ -46,6 +46,7 @@ module Murano
         r.is do
           r.get do
             @categories = ::Anxi::DB[:categories].to_a
+            @pay_methods = ::Anxi::DB[:pay_methods].to_a
             @last_entries = recent_spendings
             view "spendings"
           end
@@ -84,6 +85,22 @@ module Murano
             append_spending(category)
 
             r.redirect"#{r.script_name}/categories"
+          end
+        end
+      end
+
+      r.on "pay-methods" do
+        r.is do
+          r.get do
+            @pay_methods = ::Anxi::DB[:pay_methods].to_a
+            view "pay_methods"
+          end
+
+          r.post do
+            pay_method = Kerala::AddOrUpdatePayMethod.new(r.params)
+            append_spending(pay_method)
+
+            r.redirect"#{r.script_name}/pay-methods"
           end
         end
       end
