@@ -75,8 +75,8 @@ namespace :anxi do
 
     Anxi::DB.create_table?(:categories) do
       primary_key :id
-      String :identification, :fixed => true, :size => 50,
-                              :null => false, :unique => true
+      String :identifier, :fixed => true, :size => 50,
+                          :null => false, :unique => true
       String :display_name, :fixed => true, :size => 50, :null => false
     end
   end

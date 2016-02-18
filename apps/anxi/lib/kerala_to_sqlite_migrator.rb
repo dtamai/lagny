@@ -39,7 +39,7 @@ module Anxi
     def process_category(event)
       Anxi::DB.transaction do
         Anxi::DB[:categories]
-          .where(:identification => event.identification).tap do |dataset|
+          .where(:identifier => event.identifier).tap do |dataset|
           dataset.insert(event.fields) if dataset.update(event.fields) == 0
         end
       end

@@ -4,7 +4,7 @@ module Kerala
       5
     end
 
-    attribute :identification, String, :default => "unknown".freeze
-    attribute :display_name,   String, :default => "unknown".freeze
+    attribute :identifier,   String, :default => "unknown".freeze
+    attribute :display_name, String, :default => "unknown".freeze
   end
 end
