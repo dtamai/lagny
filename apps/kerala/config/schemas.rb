@@ -5,4 +5,5 @@ Kerala::Config.schemas = {
   "AddChargeback_v1"        => 4,
   "AddOrUpdateCategory_v1"  => 5,
   "AddOrUpdatePayMethod_v1" => 6,
+  "AddOrUpdateSeller_v1"    => 7,
 }

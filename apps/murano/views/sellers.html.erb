@@ -1,0 +1,57 @@
+<h1>Sellers</h1>
+
+<form class="form-horizontal" method="post" action="sellers">
+  <div class="form-group">
+    <label for="inputIdentifier" class="col-sm-2 control-label">Identifier</label>
+    <div class="col-sm-8 col-md-6">
+      <input name="identifier" type="text" id="inputIdentifier" class="form-control" placeholder="Identifier" data-validation="required">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputDisplayName" class="col-sm-2 control-label">Display name</label>
+    <div class="col-sm-8 col-md-6">
+      <input name="display_name" type="text" id="inputDisplayName" class="form-control" placeholder="Display name" data-validation="required">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-8 col-md-6">
+      <button type="submit" class="btn btn-primary pull-right">Save</button>
+    </div>
+  </div>
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Display name</th>
+    </tr>
+    <% @sellers.each do |seller| %>
+      <tr>
+        <td><%= seller[:identifier] %></td>
+        <td><%= seller[:display_name] %></td>
+      </tr>
+    <% end %>
+  </thead>
+</table>
+
+<% content_for :javascripts do %>
+  <script src="/js/jquery.form-validator.min.js"></script>
+  <script>
+   $(function() {
+       $('button[type=submit]').click(function() {
+           $('button[type=submit]').blur();
+           $('html').animate({
+               scrollTop: 0
+           }, 100);
+       });
+       $.validate({
+           modules: 'toggleDisabled',
+           showErrorDialogs: true,
+           decimalSeparator: ','
+       });
+   })
+  </script>
+<% end %>
