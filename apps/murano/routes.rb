@@ -45,6 +45,7 @@ module Murano
 
         r.is do
           r.get do
+            @categories = ::Anxi::DB[:categories].to_a
             @last_entries = recent_spendings
             view "spendings"
           end
@@ -74,7 +75,6 @@ module Murano
       r.on "categories" do
         r.is do
           r.get do
-            require "anxi"
             @categories = ::Anxi::DB[:categories].to_a
             view "categories"
           end
