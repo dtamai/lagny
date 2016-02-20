@@ -43,6 +43,13 @@ module Murano
     path :categories, "/categories", :add_script_name => true
 
     route do |r|
+      @nav_items = {
+        :spendings     => "Spendings",
+        :"pay-methods" => "Pay methods",
+        :sellers       => "Sellers",
+        :categories    => "Categories",
+      }
+
       r.root do
         view "home"
       end

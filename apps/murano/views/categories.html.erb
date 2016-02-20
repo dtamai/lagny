@@ -1,4 +1,6 @@
-<h1>Categories</h1>
+<%= render "_nav", :locals => { :current => :categories, :nav_items => @nav_items } %>
+
+<h3>Manage categories</h3>
 
 <form class="form-horizontal" method="post" action="categories">
   <div class="form-group">
