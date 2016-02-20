@@ -9,6 +9,7 @@ module Murano
 
     plugin :flash
     plugin :content_for
+    plugin :path
 
     use Rack::Session::Cookie, :secret => ::MURANO_SECRET
 
@@ -35,14 +36,18 @@ module Murano
       @recent_spendings ||= RecentSpendings.new.fetch
     end
 
+    path :murano, "/", :add_script_name => true
+    path :spendings, "/spendings", :add_script_name => true
+    path :pay_methods, "/pay-methods", :add_script_name => true
+    path :sellers, "/sellers", :add_script_name => true
+    path :categories, "/categories", :add_script_name => true
+
     route do |r|
       r.root do
         view "home"
       end
 
       r.on "spendings" do
-        branch_root = r.matched_path
-
         r.is do
           r.get do
             @categories = ::Anxi::DB[:categories].to_a
@@ -57,7 +62,7 @@ module Murano
             spending = Kerala::AddSpending.new(r.params)
             append_spending(spending)
 
-            r.redirect branch_root
+            r.redirect spendings_path
           end
         end
       end
@@ -69,7 +74,7 @@ module Murano
             chargeback = Kerala::AddChargeback.new(r.params)
             append_spending(chargeback)
 
-            r.redirect "#{r.script_name}/spendings"
+            r.redirect spendings_path
           end
         end
       end
@@ -85,7 +90,7 @@ module Murano
             category = Kerala::AddOrUpdateCategory.new(r.params)
             append_spending(category)
 
-            r.redirect"#{r.script_name}/categories"
+            r.redirect categories_path
           end
         end
       end
@@ -101,7 +106,7 @@ module Murano
             pay_method = Kerala::AddOrUpdatePayMethod.new(r.params)
             append_spending(pay_method)
 
-            r.redirect"#{r.script_name}/pay-methods"
+            r.redirect pay_methods_path
           end
         end
       end
@@ -117,7 +122,7 @@ module Murano
             seller = Kerala::AddOrUpdateSeller.new(r.params)
             append_spending(seller)
 
-            r.redirect"#{r.script_name}/sellers"
+            r.redirect sellers_path
           end
         end
       end
