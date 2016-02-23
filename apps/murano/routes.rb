@@ -44,10 +44,10 @@ module Murano
 
     route do |r|
       @nav_items = {
-        :spendings     => "Spendings",
-        :"pay-methods" => "Pay methods",
-        :sellers       => "Sellers",
-        :categories    => "Categories",
+        "spendings"   => "Spendings",
+        "pay-methods" => "Pay methods",
+        "sellers"     => "Sellers",
+        "categories"  => "Categories",
       }
 
       r.root do
