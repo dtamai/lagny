@@ -57,9 +57,9 @@ module Murano
       r.on "spendings" do
         r.is do
           r.get do
-            @categories = ::Anxi::DB[:categories].to_a
-            @pay_methods = ::Anxi::DB[:pay_methods].to_a
-            @sellers = ::Anxi::DB[:sellers].to_a
+            @categories = ::Anxi::DB[:categories].order(:display_name).to_a
+            @pay_methods = ::Anxi::DB[:pay_methods].order(:display_name).to_a
+            @sellers = ::Anxi::DB[:sellers].order(:display_name).to_a
             @last_entries = recent_spendings
             view "spendings"
           end
