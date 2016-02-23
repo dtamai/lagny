@@ -1,0 +1,7 @@
+<nav role="navigation">
+  <ul class="nav nav-tabs">
+    <% @nav_items.each_pair do |frag, name| %>
+      <li role="presentation" class="<%= current == frag ? "active" : "" %>"><a href="<%= frag %>"><%= name %></a></li>
+    <% end %>
+  </ul>
+</nav>

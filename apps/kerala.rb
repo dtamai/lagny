@@ -19,6 +19,9 @@ require "kerala/lib/simple_consumer"
 
 require "kerala/entities/add_spending"
 require "kerala/entities/add_chargeback"
+require "kerala/entities/add_or_update_category"
+require "kerala/entities/add_or_update_pay_method"
+require "kerala/entities/add_or_update_seller"
 
 module Kerala
   def self.logger

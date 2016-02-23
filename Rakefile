@@ -14,10 +14,10 @@ namespace :kerala do
     tmpdir = Dir.mktmpdir
 
     idls = FileList.new("apps/kerala/schemas/*.avdl")
-    tmps = idl.map do |file|
+    tmps = idls.map do |file|
       file.pathmap("%{.*,#{tmpdir}}X%s%{.*,*}n.avsc") { |name| name[/[^_]*/] }
     end
-    schemas = idl.pathmap("%{.*,#{SCHEMAS_DIR}}X%s%n.avsc")
+    schemas = idls.pathmap("%{.*,#{SCHEMAS_DIR}}X%s%n.avsc")
 
     idls.zip(tmps, schemas).each do |idl, tmp, schema|
       puts "Generating #{schema} from #{idl}"
@@ -72,11 +72,35 @@ namespace :anxi do
       String :key, :primary_key => true
       String :value
     end
+
+    Anxi::DB.create_table?(:categories) do
+      primary_key :id
+      String :identifier, :fixed => true, :size => 50,
+                          :null => false, :unique => true
+      String :display_name, :fixed => true, :size => 50, :null => false
+    end
+
+    Anxi::DB.create_table?(:pay_methods) do
+      primary_key :id
+      String :identifier, :fixed => true, :size => 50,
+                          :null => false, :unique => true
+      String :display_name, :fixed => true, :size => 50, :null => false
+    end
+
+    Anxi::DB.create_table?(:sellers) do
+      primary_key :id
+      String :identifier, :fixed => true, :size => 50,
+                          :null => false, :unique => true
+      String :display_name, :fixed => true, :size => 50, :null => false
+    end
   end
 
   task :"sqlite:drop" => [:setup] do
     Anxi::DB.drop_table?(:spendings)
     Anxi::DB.drop_table?(:__spendings_metadata)
+    Anxi::DB.drop_table?(:categories)
+    Anxi::DB.drop_table?(:pay_methods)
+    Anxi::DB.drop_table?(:sellers)
   end
 
   desc "Dumps spending topic to a csv file"

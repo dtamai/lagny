@@ -1,0 +1,10 @@
+@namespace("Kerala")
+protocol Kerala {
+    import idl "Header_v1.avdl";
+
+    record AddOrUpdatePayMethod {
+        Header header = {};
+        string identifier = "unknown";
+        string display_name = "unknown";
+    }
+}
