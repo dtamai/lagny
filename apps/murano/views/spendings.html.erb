@@ -33,6 +33,7 @@
     <label for="inputPayMethod" class="col-sm-2 control-label">Pay method</label>
     <div class="col-sm-8 col-md-6">
       <select name="pay_method" class="form-control" id="inputPayMethod" data-validation="required">
+        <option disabled selected></option>
         <% @pay_methods.each do |pay_method| %>
           <option value ="<%= pay_method[:identifier] %>"><%= pay_method[:display_name] %></option>
         <% end %>
@@ -43,6 +44,7 @@
     <label for="inputSeller" class="col-sm-2 control-label">Seller</label>
     <div class="col-sm-8 col-md-6">
       <select name="seller" class="form-control" id="inputSeller" data-validation="required">
+        <option disabled selected></option>
         <% @sellers.each do |seller| %>
           <option value ="<%= seller[:identifier] %>"><%= seller[:display_name] %></option>
         <% end %>
@@ -53,6 +55,7 @@
     <label for="inputCategory" class="col-sm-2 control-label">Category</label>
     <div class="col-sm-8 col-md-6">
       <select name="category" class="form-control" id="inputCategory" data-validation="required">
+        <option disabled selected></option>
         <% @categories.each do |category| %>
           <option value ="<%= category[:identifier] %>"><%= category[:display_name] %></option>
         <% end %>
