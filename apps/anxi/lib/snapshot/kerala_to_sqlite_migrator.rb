@@ -7,7 +7,6 @@ module Anxi
 
       def migrate
         @consumer.consume do |event|
-          byebug
           case event
           when Kerala::Snapshot::AddOrUpdatePile then process_pile event
           else next

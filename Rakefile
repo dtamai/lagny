@@ -52,7 +52,7 @@ namespace :anxi do
       ENV["KERALA_KAFKA_CONNECTION"], "spending", offset)
 
     Anxi::DB.transaction do
-      Anxi::Spending::KeralaToSQLMigrator.new(writer, consumer).migrate
+      Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
       Anxi::KeralaToSQLFinalizer.new(metadata, consumer).finalize
     end
   end
