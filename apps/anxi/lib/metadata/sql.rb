@@ -1,10 +1,8 @@
 module Anxi
   module Metadata
     class Sql
-      TABLE_NAME = :__spendings_metadata
-
-      def initialize(conn)
-        @table = conn[TABLE_NAME]
+      def initialize(table)
+        @table = table
       end
 
       def get(key)

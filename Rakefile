@@ -37,17 +37,34 @@ namespace :anxi do
     require "anxi"
   end
 
-  desc "Dumps spending topic to a sqlite file"
-  task :"sqlite:dump" => [:setup, :"sqlite:create"] do
-    metadata = Anxi::Metadata::Sql.new(Anxi::DB)
+  desc "Dumps all topics to a sqlite file"
+  task :"sqlite:dump" =>
+        [:setup,
+         :"sqlite:create",
+         :"sqlite:dump:spendings", :"sqlite:dump:snapshots"] do
+  end
 
+  task :"sqlite:dump:spendings" => [:setup, :"sqlite:create"] do
+    metadata = Anxi::Metadata::Sql.new(Anxi::DB[:__spendings_metadata])
     writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
     offset = Integer(metadata.get(:latest_offset) || 0)
     consumer = Anxi::TopicConsumer.new(
       ENV["KERALA_KAFKA_CONNECTION"], "spending", offset)
 
     Anxi::DB.transaction do
-      Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
+      Anxi::Spending::KeralaToSQLMigrator.new(writer, consumer).migrate
+      Anxi::KeralaToSQLFinalizer.new(metadata, consumer).finalize
+    end
+  end
+
+  task :"sqlite:dump:snapshots" => [:setup, :"sqlite:create"] do
+    metadata = Anxi::Metadata::Sql.new(Anxi::DB[:__snapshots_metadata])
+    offset = Integer(metadata.get(:latest_offset) || 0)
+    consumer = Anxi::TopicConsumer.new(
+      ENV["KERALA_KAFKA_CONNECTION"], "snapshot", offset)
+
+    Anxi::DB.transaction do
+      Anxi::Snapshot::KeralaToSQLMigrator.new(consumer).migrate
       Anxi::KeralaToSQLFinalizer.new(metadata, consumer).finalize
     end
   end
@@ -55,7 +72,10 @@ namespace :anxi do
   desc "Recreates spendings tables"
   task :"sqlite:reset" => [:"sqlite:drop", :"sqlite:create"]
 
-  task :"sqlite:create" => [:setup] do
+  task :"sqlite:create" => [:"sqlite:create:spendings",
+                            :"sqlite:create:snapshots"]
+
+  task :"sqlite:create:spendings" => [:setup] do
     Anxi::DB.create_table?(:spendings) do
       primary_key :id
       String :date, :fixed => true, :size => 10, :null => false
@@ -95,12 +115,34 @@ namespace :anxi do
     end
   end
 
-  task :"sqlite:drop" => [:setup] do
+  task :"sqlite:create:snapshots" => [:setup] do
+    Anxi::DB.create_table?(:__snapshots_metadata) do
+      String :key, :primary_key => true
+      String :value
+    end
+
+    Anxi::DB.create_table?(:piles) do
+      primary_key :id
+      String :pile, :fixed => true, :size => 50,
+                    :null => false, :unique => true
+      String :display_name, :fixed => true, :size => 50, :null => false
+    end
+  end
+
+  task :"sqlite:drop" => [:"sqlite:drop:spendings",
+                          :"sqlite:drop:snapshots"]
+
+  task :"sqlite:drop:spendings" => [:setup] do
     Anxi::DB.drop_table?(:spendings)
     Anxi::DB.drop_table?(:__spendings_metadata)
     Anxi::DB.drop_table?(:categories)
     Anxi::DB.drop_table?(:pay_methods)
     Anxi::DB.drop_table?(:sellers)
+  end
+
+  task :"sqlite:drop:snapshots" => [:setup] do
+    Anxi::DB.drop_table?(:__snapshots_metadata)
+    Anxi::DB.drop_table?(:piles)
   end
 
   desc "Dumps spending topic to a csv file"
