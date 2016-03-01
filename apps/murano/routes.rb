@@ -133,6 +133,10 @@ module Murano
           end
         end
       end
+
+      r.on "snapshots" do
+        r.run Murano::Snapshots::App.freeze.app
+      end
     end
   end
 end
