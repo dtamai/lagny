@@ -9,6 +9,7 @@ module Anxi
         @consumer.consume do |event|
           case event
           when Kerala::Snapshot::AddOrUpdatePile then process_pile event
+          when Kerala::Snapshot::AddOrUpdateCategory then process_category event
           else next
           end
         end
@@ -16,8 +17,19 @@ module Anxi
 
       def process_pile(event)
         Anxi::DB.transaction do
-          Anxi::DB[:piles]
+          Anxi::DB[:sn_piles]
             .where(:pile => event.pile).tap do |dataset|
+            dataset.insert(event.fields) if dataset.update(event.fields) == 0
+          end
+        end
+
+        nil
+      end
+
+      def process_category(event)
+        Anxi::DB.transaction do
+          Anxi::DB[:sn_categories]
+            .where(:category => event.category).tap do |dataset|
             dataset.insert(event.fields) if dataset.update(event.fields) == 0
           end
         end

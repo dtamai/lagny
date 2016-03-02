@@ -1,12 +1,12 @@
-<%#= render "_nav", :locals => { :current => "piles" } %>
+<%#= render "_nav", :locals => { :current => "categories" } %>
 
-<h3>Manage piles</h3>
+<h3>Manage categories</h3>
 
-<form class="form-horizontal" method="post" action="piles">
+<form class="form-horizontal" method="post" action="categories">
   <div class="form-group">
-    <label for="inputIdentifier" class="col-sm-2 control-label">Pile</label>
+    <label for="inputIdentifier" class="col-sm-2 control-label">Category</label>
     <div class="col-sm-8 col-md-6">
-      <input name="pile" type="text" id="inputIdentifier" class="form-control" placeholder="Identifier" data-validation="required">
+      <input name="category" type="text" id="inputIdentifier" class="form-control" placeholder="Identifier" data-validation="required">
     </div>
   </div>
 
@@ -27,13 +27,13 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Pile</th>
+      <th>Category</th>
       <th>Display name</th>
     </tr>
-    <% @piles.each do |pile| %>
+    <% @categories.each do |category| %>
       <tr>
-        <td><%= pile[:pile] %></td>
-        <td><%= pile[:display_name] %></td>
+        <td><%= category[:category] %></td>
+        <td><%= category[:display_name] %></td>
       </tr>
     <% end %>
   </thead>

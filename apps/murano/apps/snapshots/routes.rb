@@ -1,6 +1,6 @@
 module Murano
   module Snapshots
-    class App < App
+    class App < Roda
       plugin :render,
              :engine => "html.erb",
              :views => File.expand_path("../views", __FILE__)
@@ -13,6 +13,7 @@ module Murano
 
       path :murano, "/", :add_script_name => true
       path :piles, "/piles", :add_script_name => true
+      path :categories, "/categories", :add_script_name => true
 
       def producer
         @producer ||= Kerala::Producer.new
@@ -33,7 +34,7 @@ module Murano
         r.on "piles" do
           r.is do
             r.get do
-              @piles = ::Anxi::DB[:piles].to_a
+              @piles = ::Anxi::DB[:sn_piles].to_a
               view "piles"
             end
 
@@ -42,6 +43,22 @@ module Murano
               append_event(pile)
 
               r.redirect piles_path
+            end
+          end
+        end
+
+        r.on "categories" do
+          r.is do
+            r.get do
+              @categories = ::Anxi::DB[:sn_categories].to_a
+              view "categories"
+            end
+
+            r.post do
+              category = Kerala::Snapshot::AddOrUpdateCategory.new(r.params)
+              append_event(category)
+
+              r.redirect categories_path
             end
           end
         end

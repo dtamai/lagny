@@ -127,10 +127,17 @@ namespace :anxi do
       String :value
     end
 
-    Anxi::DB.create_table?(:piles) do
+    Anxi::DB.create_table?(:sn_piles) do
       primary_key :id
       String :pile, :fixed => true, :size => 50,
                     :null => false, :unique => true
+      String :display_name, :fixed => true, :size => 50, :null => false
+    end
+
+    Anxi::DB.create_table?(:sn_categories) do
+      primary_key :id
+      String :category, :fixed => true, :size => 50,
+                        :null => false, :unique => true
       String :display_name, :fixed => true, :size => 50, :null => false
     end
   end

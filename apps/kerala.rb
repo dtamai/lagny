@@ -24,6 +24,7 @@ require "kerala/entities/add_or_update_pay_method"
 require "kerala/entities/add_or_update_seller"
 
 require "kerala/entities/snapshot/add_or_update_pile"
+require "kerala/entities/snapshot/add_or_update_category"
 
 module Kerala
   def self.logger
