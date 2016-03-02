@@ -12,16 +12,22 @@ namespace :kerala do
   task :schemas => [:environment, :clear] do
     require "tmpdir"
     tmpdir = Dir.mktmpdir
+    srcdir = Pathname.new("apps/kerala/schemas")
 
-    idls = FileList.new("apps/kerala/schemas/*.avdl")
+    idls = FileList.new(srcdir + "**/*.avdl")
     tmps = idls.map do |file|
-      file.pathmap("%{.*,#{tmpdir}}X%s%{.*,*}n.avsc") { |name| name[/[^_]*/] }
+      file.pathmap("%{^#{srcdir},#{tmpdir}}d%s%{.*,*}n.avsc") do |name|
+        name[/[^_]*/]
+      end
     end
     schemas = idls.pathmap("%{.*,#{SCHEMAS_DIR}}X%s%n.avsc")
+    schemas = idls.pathmap("%{#{srcdir},#{SCHEMAS_DIR}}d%s%n.avsc")
 
     idls.zip(tmps, schemas).each do |idl, tmp, schema|
       puts "Generating #{schema} from #{idl}"
-      system "java", "-jar", ENV["AVRO_TOOLS_JAR"], "idl2schemata", idl, tmpdir
+      system "java", "-jar", ENV["AVRO_TOOLS_JAR"], "idl2schemata", idl, tmp.pathmap("%d")
+
+      mkdir_p schema.pathmap("%d"), :verbose => false
       cp tmp, schema, :verbose => false
     end
   end
