@@ -2,21 +2,16 @@ module Murano
   class RecentSpendings
     def initialize(limit = 10)
       @limit = limit
-      @consumer = Kerala::SimpleConsumer.new("spending")
     end
 
     def fetch
-      cache = []
-      consumer.consume do |event|
-        next unless event.is_a? Kerala::AddSpending
-        cache.unshift event
-        cache.pop if cache.size > limit
+      Anxi::DB[:spendings].order_by(:date).last(limit).map do |sp|
+        Kerala::AddSpending.new(sp)
       end
-      cache
     end
 
     private
 
-    attr_reader :consumer, :limit
+    attr_reader :limit
   end
 end
