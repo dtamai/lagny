@@ -140,6 +140,31 @@ namespace :anxi do
                         :null => false, :unique => true
       String :display_name, :fixed => true, :size => 50, :null => false
     end
+
+    Anxi::DB.create_table?(:sn_buckets) do
+      primary_key :id
+
+      String :bucket, :null   => false,
+                      :fixed  => true,
+                      :size   => 50,
+                      :unique => true
+
+      String :display_name, :null  => false,
+                            :fixed => true,
+                            :size  => 50
+
+      foreign_key :category, :sn_categories, :key => :category,
+                                             :null => false,
+                                             :type => String,
+                                             :fixed => true,
+                                             :size => 50
+
+      foreign_key :pile, :sn_piles, :key   => :pile,
+                                    :null  => false,
+                                    :type  => String,
+                                    :fixed => true,
+                                    :size  => 50
+    end
   end
 
   task :"sqlite:drop" => [:"sqlite:drop:spendings",
@@ -155,7 +180,9 @@ namespace :anxi do
 
   task :"sqlite:drop:snapshots" => [:setup] do
     Anxi::DB.drop_table?(:__snapshots_metadata)
-    Anxi::DB.drop_table?(:piles)
+    Anxi::DB.drop_table?(:sn_buckets)
+    Anxi::DB.drop_table?(:sn_piles)
+    Anxi::DB.drop_table?(:sn_categories)
   end
 
   desc "Dumps spending topic to a csv file"

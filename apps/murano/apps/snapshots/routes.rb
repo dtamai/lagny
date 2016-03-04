@@ -14,6 +14,7 @@ module Murano
       path :murano, "/", :add_script_name => true
       path :piles, "/piles", :add_script_name => true
       path :categories, "/categories", :add_script_name => true
+      path :buckets, "/buckets", :add_script_name => true
 
       def producer
         @producer ||= Kerala::Producer.new
@@ -59,6 +60,24 @@ module Murano
               append_event(category)
 
               r.redirect categories_path
+            end
+          end
+        end
+
+        r.on "buckets" do
+          r.is do
+            r.get do
+              @piles = ::Anxi::DB[:sn_piles].to_a
+              @categories = ::Anxi::DB[:sn_categories].to_a
+              @buckets = ::Anxi::DB[:sn_buckets].to_a
+              view "buckets"
+            end
+
+            r.post do
+              bucket = Kerala::Snapshot::AddOrUpdateBucket.new(r.params)
+              append_event(bucket)
+
+              r.redirect buckets_path
             end
           end
         end

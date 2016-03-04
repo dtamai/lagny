@@ -25,6 +25,7 @@ require "kerala/entities/add_or_update_seller"
 
 require "kerala/entities/snapshot/add_or_update_pile"
 require "kerala/entities/snapshot/add_or_update_category"
+require "kerala/entities/snapshot/add_or_update_bucket"
 
 module Kerala
   def self.logger
