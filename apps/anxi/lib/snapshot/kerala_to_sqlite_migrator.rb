@@ -9,9 +9,10 @@ module Anxi
         @consumer.consume do |event|
           begin
             case event
-            when Kerala::Snapshot::AddOrUpdatePile then process_pile event
+            when Kerala::Snapshot::AddOrUpdatePile     then process_pile event
             when Kerala::Snapshot::AddOrUpdateCategory then process_category event
-            when Kerala::Snapshot::AddOrUpdateBucket then process_bucket event
+            when Kerala::Snapshot::AddOrUpdateBucket   then process_bucket event
+            when Kerala::Snapshot::AddOrUpdateSnapshot then process_snapshot event
             else next
             end
           rescue StandardError => e
@@ -46,6 +47,17 @@ module Anxi
         Anxi::DB.transaction do
           Anxi::DB[:sn_buckets]
             .where(:bucket => event.bucket).tap do |dataset|
+            dataset.insert(event.fields) if dataset.update(event.fields) == 0
+          end
+        end
+
+        nil
+      end
+
+      def process_snapshot(event)
+        Anxi::DB.transaction do
+          Anxi::DB[:sn_snapshots]
+            .where(:snapshot => event.snapshot).tap do |dataset|
             dataset.insert(event.fields) if dataset.update(event.fields) == 0
           end
         end

@@ -1,0 +1,12 @@
+@namespace("Kerala::Snapshot")
+protocol Kerala {
+    import idl "../Header_v1.avdl";
+
+    record AddOrUpdateSnapshot {
+        Kerala.Header header = {};
+        string snapshot = "unknown";
+        int year = 0;
+        int month = 0;
+        int day = 0;
+    }
+}

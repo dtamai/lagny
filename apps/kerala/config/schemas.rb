@@ -9,4 +9,5 @@ Kerala::Config.schemas = {
   "snapshot/AddOrUpdatePile_v1"     =>  8,
   "snapshot/AddOrUpdateCategory_v1" =>  9,
   "snapshot/AddOrUpdateBucket_v1"   => 10,
+  "snapshot/AddOrUpdateSnapshot_v1" => 11,
 }

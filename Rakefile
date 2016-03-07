@@ -165,6 +165,17 @@ namespace :anxi do
                                     :fixed => true,
                                     :size  => 50
     end
+
+    Anxi::DB.create_table?(:sn_snapshots) do
+      String :snapshot, :null   => false,
+                        :fixed  => true,
+                        :size   => 50,
+                        :unique => true
+
+      Integer :year,  :null => false
+      Integer :month, :null => false
+      Integer :day,   :null => false
+    end
   end
 
   task :"sqlite:drop" => [:"sqlite:drop:spendings",
@@ -183,6 +194,7 @@ namespace :anxi do
     Anxi::DB.drop_table?(:sn_buckets)
     Anxi::DB.drop_table?(:sn_piles)
     Anxi::DB.drop_table?(:sn_categories)
+    Anxi::DB.drop_table?(:sn_snapshots)
   end
 
   desc "Dumps spending topic to a csv file"

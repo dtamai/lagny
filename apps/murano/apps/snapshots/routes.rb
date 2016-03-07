@@ -15,6 +15,7 @@ module Murano
       path :piles, "/piles", :add_script_name => true
       path :categories, "/categories", :add_script_name => true
       path :buckets, "/buckets", :add_script_name => true
+      path :snapshots, "/snapshots", :add_script_name => true
 
       def producer
         @producer ||= Kerala::Producer.new
@@ -29,6 +30,15 @@ module Murano
 
       def append_event(event)
         publisher.publish(event, "snapshot")
+      end
+
+      def split_date(param)
+        date = Date.parse(param)
+        {
+          "year" => date.year,
+          "month" => date.month,
+          "day" => date.day
+        }
       end
 
       route do |r|
@@ -78,6 +88,28 @@ module Murano
               append_event(bucket)
 
               r.redirect buckets_path
+            end
+          end
+        end
+
+        r.on "snapshots" do
+          r.is do
+            r.get do
+              @snapshots = ::Anxi::DB[:sn_snapshots].to_a.map do |s|
+                {
+                  :snapshot => s[:snapshot],
+                  :date => Date.new(s[:year], s[:month], s[:day]),
+                }
+              end
+              view "snapshots"
+            end
+
+            r.post do
+              r.params.merge! split_date(r.params["date"])
+              snapshot = Kerala::Snapshot::AddOrUpdateSnapshot.new(r.params)
+              append_event(snapshot)
+
+              r.redirect snapshots_path
             end
           end
         end
