@@ -16,11 +16,10 @@ gem "virtus"
 
 group :development, :test do
   gem "awesome_print"
-  gem "byebug"
+  gem "pry-byebug"
   gem "minitest"
   gem "minitest-color"
   gem "minitest-sprint"
-  gem "pry"
   gem "rack-dev-mark"
   gem "rubocop"
   gem "stackprof"
