@@ -13,4 +13,6 @@ require "anxi/lib/csv_to_kerala_migrator"
 require "anxi/lib/kerala_to_sqlite_migrator"
 require "anxi/lib/kerala_to_sqlite_finalizer"
 
+require "anxi/lib/snapshot/kerala_to_sqlite_migrator"
+
 Anxi::DB = Sequel.connect ENV["ANXI_DATA_FILE"]

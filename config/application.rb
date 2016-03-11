@@ -4,7 +4,7 @@ require "bundler"
 LAGNY_ENV = ENV["RACK_ENV"] || "development"
 LAGNY_BASE = File.expand_path("..", File.dirname(__FILE__))
 
-SCHEMAS_DIR = "tmp/schemas".freeze
+SCHEMAS_DIR = Pathname.new("tmp/schemas").freeze
 
 Bundler.setup(:default, LAGNY_ENV)
 
@@ -23,7 +23,7 @@ class App < Roda
   plugin :environments
 
   configure :development, :test do
-    require "byebug"
+    require "pry-byebug"
     require "rack/dev-mark"
     use Rack::DevMark::Middleware
   end

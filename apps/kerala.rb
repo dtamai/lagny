@@ -23,6 +23,11 @@ require "kerala/entities/add_or_update_category"
 require "kerala/entities/add_or_update_pay_method"
 require "kerala/entities/add_or_update_seller"
 
+require "kerala/entities/snapshot/add_or_update_pile"
+require "kerala/entities/snapshot/add_or_update_category"
+require "kerala/entities/snapshot/add_or_update_bucket"
+require "kerala/entities/snapshot/add_or_update_snapshot"
+
 module Kerala
   def self.logger
     Lagny::Logger
@@ -32,9 +37,13 @@ module Kerala
   require "kerala/config/schemas"
 
   Config.schema_register = SchemaRegister.new
-  Dir["#{SCHEMAS_DIR}/*.avsc"].each do |schema_path|
-    schema_name = Pathname.new(schema_path).basename(".avsc").to_s
-    id = Config.schemas[schema_name]
+  Dir["#{SCHEMAS_DIR}/**/*.avsc"].each do |schema_path|
+    relative_path = Pathname.new(schema_path)
+                            .relative_path_from(SCHEMAS_DIR)
+    schema_name = relative_path.dirname + relative_path.basename(".avsc")
+
+    id = Config.schemas[schema_name.to_s]
+
     unless id
       logger.error "Can't register unknown schema '#{schema_name}'"
       next

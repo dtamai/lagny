@@ -1,0 +1,78 @@
+<%#= render "_nav", :locals => { :current => "spendings" } %>
+
+<h3>Manage snapshots</h3>
+
+<form class="form-horizontal" method="post" action="snapshots">
+  <div class="form-group">
+    <label for="inputIdentifier" class="col-sm-2 control-label">Snapshot</label>
+    <div class="col-sm-8 col-md-6">
+      <input name="snapshot" type="text" id="inputIdentifier" class="form-control" placeholder="Identifier" data-validation="required">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputDate" class="col-sm-2 control-label">Date</label>
+    <div class="col-sm-8 col-md-6">
+      <div class="input-group date">
+        <input name="date" type="text" class="form-control" placeholder="Date" data-validation="date required" data-validation-format="dd/mm/yyyy">
+        <span class="input-group-addon">
+          <i class="glyphicon glyphicon-th"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-8 col-md-6">
+      <button type="submit" class="btn btn-primary pull-right">Save</button>
+    </div>
+  </div>
+</form>
+
+<h2>Last entries</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Snapshot</th>
+      <th>Date</th>
+    </tr>
+    <% @snapshots.each do |snapshot| %>
+      <tr>
+        <td><%= snapshot[:snapshot] %></td>
+        <td><%= snapshot[:date] %></td>
+      </tr>
+    <% end %>
+  </thead>
+</table>
+
+<% content_for :javascripts do %>
+  <script src="/js/holder.min.js"></script>
+  <script src="/js/bootstrap-datepicker.min.js"></script>
+  <script src="/js/bootstrap-datepicker.pt-BR.min.js"></script>
+  <script src="/js/jquery.form-validator.min.js"></script>
+  <script>
+   $(function() {
+       $('.input-group.date').datepicker({
+           format: "dd/mm/yyyy",
+           startView: 0,
+           minViewMode: 0,
+           language: "pt-BR",
+           orientation: "top left",
+           autoclose: true,
+           todayHighlight: true
+       });
+       $('button[type=submit]').click(function() {
+           $('button[type=submit]').blur();
+           $('html').animate({
+               scrollTop: 0
+           }, 100);
+       });
+       $.validate({
+           modules: 'toggleDisabled',
+           showErrorDialogs: true,
+           decimalSeparator: '.'
+       });
+   })
+  </script>
+<% end %>

@@ -1,0 +1,10 @@
+@namespace("Kerala::Snapshot")
+protocol Kerala {
+    import idl "../Header_v1.avdl";
+
+    record AddOrUpdateCategory {
+        Kerala.Header header = {};
+        string category = "unknown";
+        string display_name = "unknown";
+    }
+}

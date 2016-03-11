@@ -1,10 +1,8 @@
 module Anxi
   module Metadata
     class Sql
-      TABLE_NAME = :__spendings_metadata
-
-      def initialize(conn)
-        @table = conn[TABLE_NAME]
+      def initialize(table)
+        @table = table
       end
 
       def get(key)
@@ -12,7 +10,11 @@ module Anxi
       end
 
       def set(key, value)
-        @table.where(:key => key.to_s).update(:value => value)
+        @table.where(:key => key.to_s).tap do |row|
+          if row.update(:value => value) == 0
+            row.insert(:key => key.to_s, :value => value)
+          end
+        end
       end
     end
   end
