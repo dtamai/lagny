@@ -23,5 +23,6 @@ group :development, :test do
   gem "minitest-sprint"
   gem "rack-dev-mark"
   gem "rubocop"
+  gem "shotgun"
   gem "stackprof"
 end
