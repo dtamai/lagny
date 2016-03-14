@@ -7,14 +7,18 @@ module Anxi
 
       def create
         tables.each_pair do |name, definition|
+          print "Creating table #{name} ... "
           Anxi::DB.create_table?(name, &definition)
-        end.keys
+          puts "OK"
+        end
       end
 
       def drop
         tables.each_key do |name|
+          print "Dropping table #{name} ... "
           Anxi::DB.drop_table?(name)
-        end.keys
+          puts "OK"
+        end
       end
 
       private
