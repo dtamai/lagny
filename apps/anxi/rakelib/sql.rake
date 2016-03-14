@@ -7,13 +7,13 @@ namespace :db do
   end
 
   desc "Dumps all topics to a sqlite file"
-  task :"sqlite:dump" =>
+  task :dump =>
         [:setup,
-         :"sqlite:create",
-         :"sqlite:dump:spendings", :"sqlite:dump:snapshots"] do
+         :create,
+         "sqlite:dump:spendings", "sqlite:dump:snapshots"] do
   end
 
-  task :"sqlite:dump:spendings" => [:setup, :"sqlite:create"] do
+  task "sqlite:dump:spendings" => [:setup, :create] do
     metadata = Anxi::Metadata::Sql.new(Anxi::DB[:__spendings_metadata])
     writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
     offset = Integer(metadata.get(:latest_offset) || 0)
@@ -26,7 +26,7 @@ namespace :db do
     end
   end
 
-  task :"sqlite:dump:snapshots" => [:setup, :"sqlite:create"] do
+  task "sqlite:dump:snapshots" => [:setup, :create] do
     metadata = Anxi::Metadata::Sql.new(Anxi::DB[:sn_metadata])
     offset = Integer(metadata.get(:latest_offset) || 0)
     consumer = Anxi::TopicConsumer.new(
@@ -39,16 +39,16 @@ namespace :db do
   end
 
   desc "Recreates tables"
-  task "sqlite:reset" => ["sqlite:drop", "sqlite:create"]
+  task :reset => [:drop, :create]
 
   desc "Create tables"
-  task "sqlite:create" => [:setup] do
+  task :create => [:setup] do
     Anxi::Schema::Spendings.create
     Anxi::Schema::Snapshots.create
   end
 
   desc "Drop tables"
-  task "sqlite:drop" => [:setup] do
+  task :drop => [:setup] do
     Anxi::Schema::Spendings.drop
     Anxi::Schema::Snapshots.drop
   end
