@@ -2,19 +2,20 @@ module Anxi
   module Schema
     module DSL
       def table(name, &blk)
+        ordered_tables << name
         tables[name] = blk
       end
 
       def create
-        tables.each_pair do |name, definition|
+        ordered_tables.each do |name|
           print "Creating table #{name} ... "
-          Anxi::DB.create_table?(name, &definition)
+          Anxi::DB.create_table?(name, &tables[name])
           puts "OK"
         end
       end
 
       def drop
-        tables.each_key do |name|
+        ordered_tables.reverse_each do |name|
           print "Dropping table #{name} ... "
           Anxi::DB.drop_table?(name)
           puts "OK"
@@ -22,6 +23,10 @@ module Anxi
       end
 
       private
+
+      def ordered_tables
+        @ordered_tables ||= []
+      end
 
       def tables
         @tables ||= {}
