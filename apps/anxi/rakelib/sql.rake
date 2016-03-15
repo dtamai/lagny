@@ -9,11 +9,10 @@ namespace :db do
   desc "Dumps all topics to a sqlite file"
   task :dump =>
         [:setup,
-         :create,
          "sqlite:dump:spendings", "sqlite:dump:snapshots"] do
   end
 
-  task "sqlite:dump:spendings" => [:setup, :create] do
+  task "sqlite:dump:spendings" => [:setup] do
     metadata = Anxi::Metadata::Sql.new(Anxi::DB[:__spendings_metadata])
     writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
     offset = Integer(metadata.get(:latest_offset) || 0)
@@ -26,7 +25,7 @@ namespace :db do
     end
   end
 
-  task "sqlite:dump:snapshots" => [:setup, :create] do
+  task "sqlite:dump:snapshots" => [:setup] do
     metadata = Anxi::Metadata::Sql.new(Anxi::DB[:sn_metadata])
     offset = Integer(metadata.get(:latest_offset) || 0)
     consumer = Anxi::TopicConsumer.new(
