@@ -42,6 +42,17 @@ module Murano
       end
 
       route do |r|
+        @nav_items = {
+          "piles"      => "Piles",
+          "categories" => "Categories",
+          "buckets"    => "Buckets",
+          "snapshots"  => "Snapshots",
+        }
+
+        r.root do
+          view "home"
+        end
+
         r.on "piles" do
           r.is do
             r.get do
