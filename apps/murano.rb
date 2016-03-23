@@ -8,5 +8,6 @@ require "anxi"
 
 require "murano/lib/recent_spendings"
 
+require "murano/apps/spendings/routes"
 require "murano/apps/snapshots/routes"
 require "murano/routes"

@@ -5,6 +5,7 @@ module Murano
              :engine => "html.erb",
              :views => File.expand_path("../views", __FILE__)
 
+      plugin :empty_root
       plugin :flash
       plugin :content_for
       plugin :path
