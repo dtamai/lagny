@@ -14,25 +14,26 @@ namespace :db do
 
   task "sqlite:dump:spendings" => [:setup] do
     metadata = Anxi::Metadata::Sql.new(Anxi::DB[:__spendings_metadata])
-    writer = Anxi::SQLWriter.new(Anxi::DB[:spendings])
+    writer = Anxi::SQLWriter.new(Anxi::DB)
     offset = Integer(metadata.get(:latest_offset) || 0)
     consumer = Anxi::TopicConsumer.new(
       ENV["KERALA_KAFKA_CONNECTION"], "spending", offset)
 
     Anxi::DB.transaction do
-      Anxi::KeralaToSQLMigrator.new(writer, consumer).migrate
+      Anxi::KeralaToSQLMigrator.new(consumer, writer).migrate
       Anxi::KeralaToSQLFinalizer.new(metadata, consumer).finalize
     end
   end
 
   task "sqlite:dump:snapshots" => [:setup] do
     metadata = Anxi::Metadata::Sql.new(Anxi::DB[:sn_metadata])
+    writer = Anxi::SQLWriter.new(Anxi::DB)
     offset = Integer(metadata.get(:latest_offset) || 0)
     consumer = Anxi::TopicConsumer.new(
       ENV["KERALA_KAFKA_CONNECTION"], "snapshot", offset)
 
     Anxi::DB.transaction do
-      Anxi::Snapshot::KeralaToSQLMigrator.new(consumer).migrate
+      Anxi::Snapshot::KeralaToSQLMigrator.new(consumer, writer).migrate
       Anxi::KeralaToSQLFinalizer.new(metadata, consumer).finalize
     end
   end

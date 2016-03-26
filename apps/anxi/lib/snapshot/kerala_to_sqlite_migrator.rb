@@ -1,8 +1,9 @@
 module Anxi
   module Snapshot
     class KeralaToSQLMigrator
-      def initialize(consumer)
+      def initialize(consumer, writer)
         @consumer = consumer
+        @writer = writer
       end
 
       def migrate
@@ -16,53 +17,35 @@ module Anxi
             else next
             end
           rescue StandardError => e
-            $stderr << "[#{self.class.name}]\tError processing\tclass=#{event.class}\tattributes=#{event.to_h}\t#{e}"
+            $stderr << ["[#{self.class.name}]", "Error processing",
+                        "class=#{event.class}", "attributes=#{event.to_h}", e
+                       ].join("\t")
           end
         end
       end
 
       def process_pile(event)
-        Anxi::DB.transaction do
-          Anxi::DB[:sn_piles]
-            .where(:pile => event.pile).tap do |dataset|
-            dataset.insert(event.fields) if dataset.update(event.fields) == 0
-          end
-        end
-
-        nil
+        @writer.update_or_insert(
+          event, :table => :sn_piles,
+                 :where => -> { { :pile => event.pile } })
       end
 
       def process_category(event)
-        Anxi::DB.transaction do
-          Anxi::DB[:sn_categories]
-            .where(:category => event.category).tap do |dataset|
-            dataset.insert(event.fields) if dataset.update(event.fields) == 0
-          end
-        end
-
-        nil
+        @writer.update_or_insert(
+          event, :table => :sn_categories,
+                 :where => -> { { :category => event.category } })
       end
 
       def process_bucket(event)
-        Anxi::DB.transaction do
-          Anxi::DB[:sn_buckets]
-            .where(:bucket => event.bucket).tap do |dataset|
-            dataset.insert(event.fields) if dataset.update(event.fields) == 0
-          end
-        end
-
-        nil
+        @writer.update_or_insert(
+          event, :table => :sn_buckets,
+                 :where => -> { { :bucket => event.bucket } })
       end
 
       def process_snapshot(event)
-        Anxi::DB.transaction do
-          Anxi::DB[:sn_snapshots]
-            .where(:snapshot => event.snapshot).tap do |dataset|
-            dataset.insert(event.fields) if dataset.update(event.fields) == 0
-          end
-        end
-
-        nil
+        @writer.update_or_insert(
+          event, :table => :sn_snapshots,
+                 :where => -> { { :snapshot => event.snapshot } })
       end
     end
   end
