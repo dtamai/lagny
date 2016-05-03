@@ -26,7 +26,7 @@ module Kerala
     end
 
     def serializer_for(object)
-      schema = @schema_register.fetch(object.schema_id)
+      schema = @schema_register.fetch_for(object)
       Serializer.new(object, schema)
     end
   end
