@@ -39,11 +39,7 @@ module Kerala
       mock
     end
 
-    class Dummy < Event
-      def schema_id
-        1
-      end
-    end
+    class Dummy < Event; end
 
     # rubocop:disable Metrics/MethodLength
     def dummy_schema
@@ -51,6 +47,7 @@ module Kerala
         1,
         '{
         "name": "Dummy",
+        "namespace" : "Kerala::TestPublisher",
         "type": "record",
         "fields": [
             { "name": "header", "type":

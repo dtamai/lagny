@@ -1,9 +1,5 @@
 module Kerala
   class AddChargeback < Event
-    def schema_id
-      4
-    end
-
     attribute :date,       String,  :default => "2001-01-01".freeze
     attribute :currency,   String,  :default => "unknown".freeze
     attribute :cents,      Integer, :default => 0
